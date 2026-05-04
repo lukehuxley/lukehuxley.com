@@ -1,16 +1,15 @@
-<!DOCTYPE html><html lang="en"><head>
-
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Terms of Service · Luke Huxley</title>
-  <meta name="description" content="Terms of service for applications and services published by Luke Huxley.">
+  <title>Privacy Policy · Luke Huxley</title>
+  <meta name="description" content="Privacy policy for applications and services published by Luke Huxley, including disclosures required by Google API Services User Data Policy.">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
   <link rel="stylesheet" href="colors_and_type.css">
   <script>
-    // Apply persisted theme before paint to avoid flash. Default is dark.
     (function () {
       function getSystemTheme() {
         if (window.matchMedia) {
@@ -31,8 +30,6 @@
   <style>
     * { box-sizing: border-box; }
 
-    /* THEME — light is the default token set in colors_and_type.css.
-       data-theme="dark" overrides the semantic roles for dark-first surfaces. */
     html[data-theme="dark"] {
       --bg:               var(--ink-black);
       --bg-elevated:      #00222e;
@@ -49,8 +46,6 @@
       --border:           color-mix(in oklab, var(--azure-mist) 10%, transparent);
       --border-strong:    color-mix(in oklab, var(--azure-mist) 18%, transparent);
     }
-
-    /* Light mode: white page, azure-mist elevated surfaces */
     html:not([data-theme="dark"]) {
       --bg: #ffffff;
       --bg-elevated: var(--azure-mist);
@@ -62,6 +57,14 @@
       min-height: 100vh;
       position: relative;
       transition: background var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out);
+    }
+    html[data-theme="dark"] body {
+      background-image: radial-gradient(
+        ellipse 800px 600px at 12% -10%,
+        color-mix(in oklab, var(--tropical-teal) 6%, transparent),
+        transparent 70%
+      );
+      background-attachment: fixed;
     }
 
     /* Animated particle field (three.js) — anchored at top, scrolls with page, flipped vertically */
@@ -85,17 +88,7 @@
       .bg-dots { display: none; }
     }
 
-    /* Subtle radial halo on dark to echo the logo glow */
-    html[data-theme="dark"] body {
-      background-image: radial-gradient(
-        ellipse 800px 600px at 12% -10%,
-        color-mix(in oklab, var(--tropical-teal) 6%, transparent),
-        transparent 70%
-      );
-      background-attachment: fixed;
-    }
-
-    /* HEADER — subtle teal-tinted glass (matches index.html) */
+    /* HEADER */
     .header {
       position: sticky;
       top: 0;
@@ -158,7 +151,6 @@
       color: var(--fg);
       background: color-mix(in oklab, var(--accent) 14%, transparent);
     }
-    html[data-theme="dark"] .header__nav a:hover { color: var(--neon-ice); }
 
     /* Hamburger menu — hidden by default, replaces inline links on narrow screens */
     .menu-toggle {
@@ -412,12 +404,32 @@
       color: var(--fg);
     }
     section.section ul li::marker { color: var(--fg-subtle); }
-    section.section code {
-      font-size: 14px;
+    section.section a { color: var(--accent); }
+
+    /* DATA TABLE */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 16px;
+      font-size: 15px;
+      max-width: 68ch;
     }
-    section.section a {
-      color: var(--accent);
+    .data-table th, .data-table td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
     }
+    .data-table th {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-subtle);
+      font-weight: 500;
+    }
+    .data-table td { color: var(--fg); line-height: 1.55; }
+    .data-table tr:last-child td { border-bottom: none; }
 
     /* CALLOUT */
     .callout {
@@ -479,10 +491,7 @@
       color: var(--accent);
       margin: 0 0 10px;
     }
-    .contact-card__lines {
-      display: grid;
-      gap: 4px;
-    }
+    .contact-card__lines { display: grid; gap: 4px; }
     html[data-theme="dark"] .contact-card { box-shadow: 0 0 30px rgba(0, 181, 186, 0.08); }
     html[data-theme="dark"] .contact-card::before { box-shadow: 0 0 16px var(--tropical-teal); }
     .contact-card__lines a {
@@ -513,10 +522,7 @@
       flex-wrap: wrap;
     }
     footer .spacer { flex: 1; }
-    footer a {
-      color: var(--fg-muted);
-      background-image: none;
-    }
+    footer a { color: var(--fg-muted); background-image: none; }
     footer a:hover { color: var(--fg); }
 
     @media (max-width: 600px) {
@@ -562,8 +568,8 @@
 
   <main>
     <p class="eyebrow"><span class="eyebrow__dot"></span>Legal · v1.0</p>
-    <h1 class="page-title">Terms of Service</h1>
-    <p class="lede">The rules of the road for using my applications and services. Plain language where I can manage it; precise language where I can't.</p>
+    <h1 class="page-title">Privacy Policy</h1>
+    <p class="lede">How my applications and services collect, use, and protect your information — including data accessed through Google APIs.</p>
 
     <div class="meta">
       <span class="meta__item"><span class="meta__label">Effective</span><span class="meta__value">May 4, 2026</span></span>
@@ -574,142 +580,176 @@
     <nav class="toc" aria-label="Contents">
       <p class="toc__title">Contents</p>
       <ol>
-        <li><a href="#agreement">Agreement</a></li>
-        <li><a href="#service">The service</a></li>
-        <li><a href="#accounts">Accounts and access</a></li>
-        <li><a href="#google">Use of Google APIs</a></li>
-        <li><a href="#acceptable-use">Acceptable use</a></li>
-        <li><a href="#your-content">Your content</a></li>
-        <li><a href="#ip">Intellectual property</a></li>
-        <li><a href="#third-party">Third-party services</a></li>
-        <li><a href="#fees">Fees</a></li>
-        <li><a href="#termination">Termination</a></li>
-        <li><a href="#disclaimers">Disclaimers</a></li>
-        <li><a href="#liability">Limitation of liability</a></li>
-        <li><a href="#indemnity">Indemnification</a></li>
-        <li><a href="#changes">Changes to these terms</a></li>
-        <li><a href="#governing-law">Governing law</a></li>
+        <li><a href="#scope">Scope</a></li>
+        <li><a href="#what-i-collect">What I collect</a></li>
+        <li><a href="#how-i-use-it">How I use it</a></li>
+        <li><a href="#google">Google user data</a></li>
+        <li><a href="#sharing">Sharing &amp; transfers</a></li>
+        <li><a href="#storage">Storage &amp; security</a></li>
+        <li><a href="#retention">Data retention</a></li>
+        <li><a href="#your-rights">Your rights</a></li>
+        <li><a href="#cookies">Cookies &amp; local storage</a></li>
+        <li><a href="#children">Children</a></li>
+        <li><a href="#international">International transfers</a></li>
+        <li><a href="#changes">Changes to this policy</a></li>
         <li><a href="#contact">Contact</a></li>
       </ol>
     </nav>
 
-    <section class="section" id="agreement">
-      <h2 data-num="01">Agreement</h2>
-      <p>These Terms of Service ("Terms") form a binding agreement between you and <strong>Luke Huxley</strong> ("I", "me", or "my"), the individual operator of the applications, websites, and services described below (collectively, the "Service"). By accessing or using the Service, including by signing in with a Google account, you agree to these Terms. If you do not agree, do not use the Service.</p>
-      <p>If you are using the Service on behalf of an organisation, you represent that you have the authority to accept these Terms on its behalf, and "you" means both you and that organisation.</p>
+    <section class="section" id="scope">
+      <h2 data-num="01">Scope</h2>
+      <p>This Privacy Policy describes how I, <strong>Luke Huxley</strong>, the individual operator of the applications, websites, and services described on this site (collectively, the "Service"), handle personal information. It applies to anyone who interacts with the Service, including by signing in with a Google account.</p>
+      <p>This policy works alongside the <a href="terms.html">Terms of Service</a>. Capitalised terms not defined here have the meanings given in those Terms.</p>
     </section>
 
-    <section class="section" id="service">
-      <h2 data-num="02">The service</h2>
-      <p>The Service consists of personal-scale software projects that I build and operate. It may include web applications, command-line tools, and integrations with third-party platforms such as Google. Specific features, behavior, and availability are described on the relevant project page and may change from time to time.</p>
-      <p>The Service is provided as a personal project. It is not an enterprise product, it does not come with a service-level agreement, and it should not be treated as production-grade infrastructure unless I have told you otherwise in writing.</p>
+    <section class="section" id="what-i-collect">
+      <h2 data-num="02">What I collect</h2>
+      <p>I try to collect as little as I need to make a feature work. The categories below cover everything the Service may collect:</p>
+      <table class="data-table">
+        <thead>
+          <tr><th>Category</th><th>Examples</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Account identifiers</strong></td>
+            <td>Your email address, Google account ID, display name, and profile picture URL</td>
+            <td>You, via your identity provider (e.g. Google sign-in)</td>
+          </tr>
+          <tr>
+            <td><strong>Authorisation tokens</strong></td>
+            <td>OAuth access and refresh tokens scoped to the permissions you grant</td>
+            <td>Your identity provider, on your authorisation</td>
+          </tr>
+          <tr>
+            <td><strong>Google user data</strong></td>
+            <td>Only the data covered by the OAuth scopes you have approved (see <a href="#google">Section 4</a>)</td>
+            <td>Google APIs, on your authorisation</td>
+          </tr>
+          <tr>
+            <td><strong>Content you submit</strong></td>
+            <td>Text, files, settings, and other input you provide to the Service</td>
+            <td>You</td>
+          </tr>
+          <tr>
+            <td><strong>Technical logs</strong></td>
+            <td>IP address, user-agent string, request timestamps, error traces</td>
+            <td>Automatically, when you use the Service</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>I do <strong>not</strong> intentionally collect special-category data (such as health, religion, or political views), and I do not buy personal data from third parties.</p>
     </section>
 
-    <section class="section" id="accounts">
-      <h2 data-num="03">Accounts and access</h2>
-      <p>Some parts of the Service require an account. You may create an account by signing in with a supported identity provider, such as Google. You are responsible for:</p>
+    <section class="section" id="how-i-use-it">
+      <h2 data-num="03">How I use it</h2>
+      <p>I use the information I collect only to:</p>
       <ul>
-        <li>Keeping your account credentials secure.</li>
-        <li>All activity that occurs under your account.</li>
-        <li>Notifying me promptly if you suspect unauthorised use.</li>
+        <li>Provide, operate, and maintain the user-facing features of the Service.</li>
+        <li>Authenticate you and keep your session secure.</li>
+        <li>Diagnose problems, prevent abuse, and improve reliability.</li>
+        <li>Communicate with you about the Service when you have asked me to or when I am required to.</li>
+        <li>Comply with applicable law.</li>
       </ul>
-      <p>You must be at least 13 years old to use the Service, or the minimum age required by your country's laws to consent to the processing of your personal data, whichever is higher.</p>
+      <p>I do not use your information for advertising, profiling for marketing, or training generalised machine-learning models.</p>
     </section>
 
     <section class="section" id="google">
-      <h2 data-num="04">Use of Google APIs</h2>
-      <p>The Service may request permission to access information from your Google account on your behalf, for example to read or modify data in Google services you have authorised. When it does so, the Service uses Google API Services and is bound by the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+      <h2 data-num="04">Google user data</h2>
+      <p>When you authorise the Service to access your Google account, the Service uses Google API Services and is bound by the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the <strong>Limited Use</strong> requirements. The following commitments apply to all data the Service receives from Google APIs ("Google user data").</p>
 
-      <h3>What I commit to</h3>
+      <h3>Limited Use commitments</h3>
       <ul>
-        <li>I only request the minimum scopes needed for a feature you have asked for.</li>
-        <li>I use Google user data only to provide and improve the user-facing features of the Service.</li>
-        <li>I do not transfer Google user data to third parties except as necessary to provide or improve the Service, to comply with applicable law, or as part of a merger, acquisition, or sale of assets with appropriate notice to users.</li>
-        <li>I do not use Google user data for serving advertisements.</li>
-        <li>I do not allow humans to read your Google user data unless I have your explicit consent, it is necessary for security purposes (e.g. investigating abuse), to comply with applicable law, or the data is aggregated and used for internal operations in line with the User Data Policy.</li>
+        <li>The Service's use of Google user data is <strong>limited to providing or improving user-facing features</strong> that are prominent in the Service's user interface.</li>
+        <li>The Service does <strong>not</strong> transfer Google user data to third parties except as necessary to provide or improve user-facing features, to comply with applicable law, or as part of a merger, acquisition, or sale of assets with appropriate notice to users.</li>
+        <li>The Service does <strong>not</strong> use Google user data to serve advertisements, including retargeting, personalised, or interest-based advertising.</li>
+        <li>The Service does <strong>not</strong> allow humans to read Google user data, except: (a) with your explicit consent for specific data; (b) where necessary for security purposes (such as investigating abuse); (c) to comply with applicable law; or (d) where the data has been aggregated and anonymised so that it can no longer be associated with an individual user, and is used for internal operations consistent with the User Data Policy.</li>
+        <li>The Service does <strong>not</strong> use Google user data to develop, improve, or train generalised or non-personalised AI or machine-learning models.</li>
       </ul>
 
+      <h3>Scopes I request</h3>
+      <p>The Service only requests OAuth scopes that are required for a feature you have asked for. You will see the requested scopes on Google's consent screen before you grant access; the Service does not request additional scopes silently after that point.</p>
+
       <h3>Revoking access</h3>
-      <p>You can revoke the Service's access to your Google account at any time at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>. Revoking access will disable any features of the Service that depend on Google data.</p>
+      <p>You can revoke the Service's access to your Google account at any time at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>. Once you revoke access, the Service can no longer call Google APIs on your behalf and any cached Google user data is deleted within the timeframe described in <a href="#retention">Section 7</a>.</p>
 
       <div class="callout">
-        <p class="callout__label">Note</p>
-        <p>For details on what data is collected, how it is stored, and how it is used, please get in touch.</p>
+        <p class="callout__label">In plain English</p>
+        <p>Your Google data is used to make the feature you authorised work, and nothing else. It is not sold, not used for ads, and not used to train AI models.</p>
       </div>
     </section>
 
-    <section class="section" id="acceptable-use">
-      <h2 data-num="05">Acceptable use</h2>
-      <p>You agree not to use the Service to:</p>
+    <section class="section" id="sharing">
+      <h2 data-num="05">Sharing &amp; transfers</h2>
+      <p>I do not sell or rent personal information. I share it only in these limited cases:</p>
       <ul>
-        <li>Break the law, infringe someone else's rights, or facilitate either.</li>
-        <li>Send spam, malware, or other harmful content.</li>
-        <li>Probe, scan, or test the vulnerability of the Service or its underlying systems without my prior written permission.</li>
-        <li>Reverse-engineer, decompile, or disassemble any part of the Service, except to the extent that this restriction is prohibited by applicable law.</li>
-        <li>Use automated means to access the Service in a way that places an unreasonable load on it.</li>
-        <li>Impersonate any person or misrepresent your affiliation with anyone.</li>
-        <li>Interfere with or disrupt the Service or the servers and networks connected to it.</li>
+        <li><strong>Infrastructure providers</strong> who host the Service or store its data on my behalf, under contracts that require them to protect the data and use it only as I direct.</li>
+        <li><strong>Identity providers</strong> (such as Google) that you have chosen to sign in with — the relationship is yours, but technically the data passes through their systems.</li>
+        <li><strong>Legal compliance</strong>, when I am required by law, court order, or a binding regulatory request, and only to the extent necessary.</li>
+        <li><strong>Business transfers</strong>, if the Service is ever acquired or merged into another entity, in which case I will give you reasonable notice before your information becomes subject to a different privacy policy.</li>
       </ul>
     </section>
 
-    <section class="section" id="your-content">
-      <h2 data-num="06">Your content</h2>
-      <p>You retain all rights in any content you submit to or through the Service ("Your Content"). By submitting Your Content, you grant me a limited, non-exclusive, royalty-free licence to host, store, transmit, display, and process it solely as needed to operate and provide the Service to you.</p>
-      <p>You are responsible for Your Content and for ensuring you have the rights necessary to submit it. I may remove content that I reasonably believe violates these Terms or applicable law.</p>
+    <section class="section" id="storage">
+      <h2 data-num="06">Storage &amp; security</h2>
+      <p>Personal data and authorisation tokens are stored on infrastructure provided by reputable cloud platforms, with access restricted to me. I take reasonable technical and organisational measures to protect your information, including:</p>
+      <ul>
+        <li>TLS encryption for data in transit.</li>
+        <li>Encryption at rest for stored credentials and OAuth tokens.</li>
+        <li>Principle-of-least-privilege access controls.</li>
+        <li>Routine review of dependencies and patches for known vulnerabilities.</li>
+      </ul>
+      <p>No system is perfectly secure. If I become aware of a security incident affecting your information, I will notify you and any required authority as soon as reasonably practicable.</p>
     </section>
 
-    <section class="section" id="ip">
-      <h2 data-num="07">Intellectual property</h2>
-      <p>The Service, including its software, design, and trademarks, is owned by me or licensed to me. Subject to your compliance with these Terms, I grant you a limited, non-exclusive, non-transferable, revocable licence to access and use the Service for its intended purpose. No other rights are granted by implication or otherwise.</p>
-      <p>Some components of the Service may be released under open-source licences; those components are governed by their own licence terms, which override these Terms with respect to that component.</p>
+    <section class="section" id="retention">
+      <h2 data-num="07">Data retention</h2>
+      <p>I keep personal information only as long as needed for the purposes described in this policy:</p>
+      <ul>
+        <li><strong>Account identifiers and OAuth tokens</strong> are kept while your account is active and deleted within 30 days of you deleting your account or revoking the Service's access.</li>
+        <li><strong>Cached Google user data</strong> is kept only as long as needed to fulfil your most recent request, and is deleted promptly thereafter — typically within 24 hours, and within 30 days at the outside.</li>
+        <li><strong>Technical logs</strong> are retained for up to 90 days, then deleted or aggregated into non-identifying metrics.</li>
+        <li><strong>Records I am legally required to keep</strong> (such as billing or tax records, if applicable) are retained for the period the relevant law requires.</li>
+      </ul>
     </section>
 
-    <section class="section" id="third-party">
-      <h2 data-num="08">Third-party services</h2>
-      <p>The Service may link to or interoperate with services provided by third parties, including Google. I am not responsible for the availability, content, or practices of those third-party services, and your use of them is governed by their own terms and privacy policies.</p>
+    <section class="section" id="your-rights">
+      <h2 data-num="08">Your rights</h2>
+      <p>Depending on where you live, you may have rights under privacy laws such as the GDPR (EU/UK), the CCPA/CPRA (California), or similar regimes. These typically include the right to:</p>
+      <ul>
+        <li>Access the personal information I hold about you.</li>
+        <li>Correct information that is inaccurate or incomplete.</li>
+        <li>Delete information, subject to legal retention requirements.</li>
+        <li>Object to or restrict certain processing.</li>
+        <li>Receive a portable copy of your information.</li>
+        <li>Withdraw consent at any time, where processing is based on consent.</li>
+        <li>Lodge a complaint with your local data-protection authority.</li>
+      </ul>
+      <p>To exercise any of these rights, email me using the address in <a href="#contact">Section 13</a>. I will respond within the timeframe required by the applicable law (typically 30 days).</p>
     </section>
 
-    <section class="section" id="fees">
-      <h2 data-num="09">Fees</h2>
-      <p>The Service is currently offered free of charge. If a feature becomes paid in the future, I will tell you about the fees, billing terms, and refund policy before you are charged. Your continued use of a paid feature after that disclosure constitutes acceptance of those terms.</p>
+    <section class="section" id="cookies">
+      <h2 data-num="09">Cookies &amp; local storage</h2>
+      <p>The Service uses a small number of strictly necessary cookies and browser local-storage entries to keep you signed in and to remember preferences such as your chosen colour theme. It does not use third-party advertising or analytics cookies.</p>
     </section>
 
-    <section class="section" id="termination">
-      <h2 data-num="10">Termination</h2>
-      <p>You may stop using the Service at any time. I may suspend or terminate your access to the Service, with or without notice, if I reasonably believe you have violated these Terms, if continuing to provide the Service to you would expose me or others to legal or security risk, or if I discontinue the Service.</p>
-      <p>Sections of these Terms that by their nature should survive termination, including intellectual property, disclaimers, limitation of liability, and governing law, will survive.</p></p>
+    <section class="section" id="children">
+      <h2 data-num="10">Children</h2>
+      <p>The Service is not directed at children under 13, and I do not knowingly collect personal information from children under 13. If you believe a child has provided me with personal information, please contact me and I will delete it.</p>
     </section>
 
-    <section class="section" id="disclaimers">
-      <h2 data-num="11">Disclaimers</h2>
-      <p>The Service is provided <strong>"as is"</strong> and <strong>"as available"</strong>, without warranties of any kind, whether express or implied, including warranties of merchantability, fitness for a particular purpose, non-infringement, or that the Service will be uninterrupted, secure, or error-free. You use the Service at your own discretion and risk.</p>
-    </section>
-
-    <section class="section" id="liability">
-      <h2 data-num="12">Limitation of liability</h2>
-      <p>To the fullest extent permitted by law, I will not be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages, or for any loss of profits, revenue, data, or goodwill, arising out of or in connection with your use of the Service, even if I have been advised of the possibility of such damages.</p>
-      <p>My total liability for all claims arising out of or relating to the Service will not exceed <strong>one hundred US dollars (US$100)</strong>, or, if greater, the amount you paid me for use of the Service in the 12 months preceding the claim.</p>
-      <p>Some jurisdictions do not allow the exclusion or limitation of certain damages, so some of the above may not apply to you.</p>
-    </section>
-
-    <section class="section" id="indemnity">
-      <h2 data-num="13">Indemnification</h2>
-      <p>You agree to defend, indemnify, and hold me harmless from any claims, damages, liabilities, costs, and expenses (including reasonable legal fees) arising out of your use of the Service, Your Content, or your violation of these Terms or applicable law.</p>
+    <section class="section" id="international">
+      <h2 data-num="11">International transfers</h2>
+      <p>The Service may be operated from, and your information may be processed in, countries other than the one you live in. Where such transfers are subject to data-protection law, I rely on appropriate safeguards (such as standard contractual clauses) to protect your information.</p>
     </section>
 
     <section class="section" id="changes">
-      <h2 data-num="14">Changes to these terms</h2>
-      <p>I may update these Terms from time to time. If I make a material change, I will update the "Last updated" date at the top of this page and, where reasonable, notify you through the Service. Your continued use of the Service after the change becomes effective constitutes acceptance of the updated Terms.</p>
-    </section>
-
-    <section class="section" id="governing-law">
-      <h2 data-num="15">Governing law</h2>
-      <p>These Terms are governed by the laws of the jurisdiction in which I primarily reside, without regard to its conflict-of-laws principles. The courts of that jurisdiction will have exclusive jurisdiction over any dispute arising out of or relating to these Terms or the Service, except that I may seek injunctive relief in any court of competent jurisdiction to protect my intellectual property rights.</p>
+      <h2 data-num="12">Changes to this policy</h2>
+      <p>I may update this policy from time to time. If I make a material change, I will update the "Last updated" date at the top of this page and, where reasonable, notify you through the Service. Your continued use of the Service after the change becomes effective constitutes acceptance of the updated policy.</p>
     </section>
 
     <section class="section" id="contact">
-      <h2 data-num="16">Contact</h2>
-      <p>Questions about these Terms? The fastest path is email; I read everything that comes in.</p>
+      <h2 data-num="13">Contact</h2>
+      <p>Questions, requests about your data, or anything else privacy-related — email me directly. I read every message.</p>
       <div class="contact-card">
         <p class="contact-card__label">Get in touch</p>
         <div class="contact-card__lines">
@@ -763,4 +803,5 @@
     })();
 
   </script>
-</body></html>
+</body>
+</html>
