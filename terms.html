@@ -3,9 +3,11 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Terms of Service — Luke Huxley</title>
+  <title>Terms of Service · Luke Huxley</title>
   <meta name="description" content="Terms of service for applications and services published by Luke Huxley.">
-  <link rel="icon" href="assets/logo.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
   <link rel="stylesheet" href="colors_and_type.css">
   <script>
     // Apply persisted theme before paint to avoid flash. Default is dark.
@@ -41,6 +43,12 @@
       --border-strong:    color-mix(in oklab, var(--azure-mist) 18%, transparent);
     }
 
+    /* Light mode: white page, azure-mist elevated surfaces */
+    html:not([data-theme="dark"]) {
+      --bg: #ffffff;
+      --bg-elevated: var(--azure-mist);
+    }
+
     body {
       background: var(--bg) !important;
       color: var(--fg);
@@ -58,7 +66,7 @@
       background-attachment: fixed;
     }
 
-    /* HEADER */
+    /* HEADER — subtle teal-tinted glass (matches index.html) */
     .header {
       position: sticky;
       top: 0;
@@ -67,22 +75,33 @@
       display: flex;
       align-items: center;
       padding: 0 32px;
-      border-bottom: 1px solid var(--border);
-      background: color-mix(in oklab, var(--azure-mist) 55%, transparent);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      transition: background var(--dur-slow) var(--ease-out), border-color var(--dur-slow) var(--ease-out);
+      border-bottom: 1px solid color-mix(in oklab, var(--tropical-teal) 14%, transparent);
+      background: color-mix(in oklab, var(--tropical-teal) 12%, color-mix(in oklab, #ffffff 35%, transparent));
+      color: var(--ink-black);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      box-shadow: 0 1px 0 0 color-mix(in oklab, white 45%, transparent) inset;
+      transition: background var(--dur-slow) var(--ease-out), border-color var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out);
     }
     html[data-theme="dark"] .header {
-      background: color-mix(in oklab, var(--ink-black) 50%, transparent);
+      background: color-mix(in oklab, var(--dark-teal) 28%, transparent);
+      border-bottom-color: color-mix(in oklab, var(--tropical-teal) 14%, transparent);
+      color: var(--azure-mist);
+      box-shadow: 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 8%, transparent) inset;
     }
+    .header .brand { color: inherit; }
+    .header__nav a { color: color-mix(in oklab, currentColor 70%, transparent) !important; }
+    .header__nav a:hover { color: currentColor !important; background: color-mix(in oklab, var(--ink-black) 10%, transparent) !important; }
+    html[data-theme="dark"] .header__nav a:hover { color: var(--neon-ice) !important; background: color-mix(in oklab, var(--neon-ice) 14%, transparent) !important; }
+    .header .theme-toggle { color: color-mix(in oklab, currentColor 70%, transparent); border-color: color-mix(in oklab, currentColor 25%, transparent); }
+    .header .theme-toggle:hover { color: currentColor; border-color: color-mix(in oklab, currentColor 50%, transparent); }
     .brand {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-family: var(--font-display);
+      font-family: var(--font-title);
       font-size: 22px;
-      letter-spacing: -0.01em;
+      letter-spacing: 0.005em;
       color: var(--fg);
       text-decoration: none;
       background-image: none;
@@ -313,6 +332,7 @@
       padding: 20px 24px;
       margin: 0 0 32px;
       position: relative;
+      box-shadow: 0 2px 6px rgba(186, 71, 0, 0.10), 0 1px 2px rgba(186, 71, 0, 0.06);
     }
     .callout__label {
       font-family: var(--font-mono);
@@ -328,7 +348,14 @@
       font-size: 15px;
       line-height: 1.55;
     }
-    html[data-theme="dark"] .callout { border-color: color-mix(in oklab, var(--burnt-orange) 38%, transparent); }
+    html[data-theme="dark"] .callout {
+      background: #6b3410;
+      border-color: var(--burnt-orange);
+      box-shadow: 0 0 30px rgba(255, 147, 52, 0.12);
+    }
+    html[data-theme="dark"] .callout__label,
+    html[data-theme="dark"] .callout p { color: var(--cornsilk); }
+    html[data-theme="dark"] .callout a { color: #ff9334; }
     html[data-theme="dark"] .callout__label { color: #ff8a3d; }
 
     /* CONTACT BLOCK */
@@ -410,8 +437,9 @@
       <span style="font-family: Lato;">Luke Huxley</span>
     </a>
     <nav class="header__nav">
+      <a href="index.html">Home</a>
       <a href="terms.html">Terms</a>
-      <a href="mailto:luke@lukehuxley.com">Contact</a>
+      <a href="mailto:luke.huxley@gmail.com">Contact</a>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme" title="Toggle theme">
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
@@ -454,8 +482,8 @@
 
     <section class="section" id="agreement">
       <h2 data-num="01">Agreement</h2>
-      <p>These Terms of Service ("Terms") form a binding agreement between you and <strong>Luke Huxley</strong> ("I", "me", or "my"), the individual operator of the applications, websites, and services described below (collectively, the "Service"). By accessing or using the Service — including by signing in with a Google account — you agree to these Terms. If you do not agree, do not use the Service.</p>
-      <p>If you are using the Service on behalf of an organization, you represent that you have the authority to accept these Terms on its behalf, and "you" means both you and that organization.</p>
+      <p>These Terms of Service ("Terms") form a binding agreement between you and <strong>Luke Huxley</strong> ("I", "me", or "my"), the individual operator of the applications, websites, and services described below (collectively, the "Service"). By accessing or using the Service, including by signing in with a Google account, you agree to these Terms. If you do not agree, do not use the Service.</p>
+      <p>If you are using the Service on behalf of an organisation, you represent that you have the authority to accept these Terms on its behalf, and "you" means both you and that organisation.</p>
     </section>
 
     <section class="section" id="service">
@@ -470,14 +498,14 @@
       <ul>
         <li>Keeping your account credentials secure.</li>
         <li>All activity that occurs under your account.</li>
-        <li>Notifying me promptly if you suspect unauthorized use.</li>
+        <li>Notifying me promptly if you suspect unauthorised use.</li>
       </ul>
       <p>You must be at least 13 years old to use the Service, or the minimum age required by your country's laws to consent to the processing of your personal data, whichever is higher.</p>
     </section>
 
     <section class="section" id="google">
       <h2 data-num="04">Use of Google APIs</h2>
-      <p>The Service may request permission to access information from your Google account on your behalf — for example, to read or modify data in Google services you have authorized. When it does so, the Service uses Google API Services and is bound by the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+      <p>The Service may request permission to access information from your Google account on your behalf, for example to read or modify data in Google services you have authorised. When it does so, the Service uses Google API Services and is bound by the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
 
       <h3>What I commit to</h3>
       <ul>
@@ -491,9 +519,9 @@
       <h3>Revoking access</h3>
       <p>You can revoke the Service's access to your Google account at any time at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>. Revoking access will disable any features of the Service that depend on Google data.</p>
 
-      <div class="contact-card">
+      <div class="callout">
         <p class="callout__label">Note</p>
-        <p>For details on what data is collected, how it is stored, and how it is used, see the <a href="privacy.html">Privacy Policy</a>.</p>
+        <p>For details on what data is collected, how it is stored, and how it is used, please get in touch.</p>
       </div>
     </section>
 
@@ -513,14 +541,14 @@
 
     <section class="section" id="your-content">
       <h2 data-num="06">Your content</h2>
-      <p>You retain all rights in any content you submit to or through the Service ("Your Content"). By submitting Your Content, you grant me a limited, non-exclusive, royalty-free license to host, store, transmit, display, and process it solely as needed to operate and provide the Service to you.</p>
+      <p>You retain all rights in any content you submit to or through the Service ("Your Content"). By submitting Your Content, you grant me a limited, non-exclusive, royalty-free licence to host, store, transmit, display, and process it solely as needed to operate and provide the Service to you.</p>
       <p>You are responsible for Your Content and for ensuring you have the rights necessary to submit it. I may remove content that I reasonably believe violates these Terms or applicable law.</p>
     </section>
 
     <section class="section" id="ip">
       <h2 data-num="07">Intellectual property</h2>
-      <p>The Service, including its software, design, and trademarks, is owned by me or licensed to me. Subject to your compliance with these Terms, I grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Service for its intended purpose. No other rights are granted by implication or otherwise.</p>
-      <p>Some components of the Service may be released under open-source licenses; those components are governed by their own license terms, which override these Terms with respect to that component.</p>
+      <p>The Service, including its software, design, and trademarks, is owned by me or licensed to me. Subject to your compliance with these Terms, I grant you a limited, non-exclusive, non-transferable, revocable licence to access and use the Service for its intended purpose. No other rights are granted by implication or otherwise.</p>
+      <p>Some components of the Service may be released under open-source licences; those components are governed by their own licence terms, which override these Terms with respect to that component.</p>
     </section>
 
     <section class="section" id="third-party">
@@ -535,8 +563,8 @@
 
     <section class="section" id="termination">
       <h2 data-num="10">Termination</h2>
-      <p>You may stop using the Service at any time. I may suspend or terminate your access to the Service — with or without notice — if I reasonably believe you have violated these Terms, if continuing to provide the Service to you would expose me or others to legal or security risk, or if I discontinue the Service.</p>
-      <p>Sections of these Terms that by their nature should survive termination — including intellectual property, disclaimers, limitation of liability, and governing law — will survive.</p>
+      <p>You may stop using the Service at any time. I may suspend or terminate your access to the Service, with or without notice, if I reasonably believe you have violated these Terms, if continuing to provide the Service to you would expose me or others to legal or security risk, or if I discontinue the Service.</p>
+      <p>Sections of these Terms that by their nature should survive termination, including intellectual property, disclaimers, limitation of liability, and governing law, will survive.</p></p>
     </section>
 
     <section class="section" id="disclaimers">
@@ -568,11 +596,11 @@
 
     <section class="section" id="contact">
       <h2 data-num="16">Contact</h2>
-      <p>Questions about these Terms? The fastest path is email — I read everything that comes in.</p>
+      <p>Questions about these Terms? The fastest path is email; I read everything that comes in.</p>
       <div class="contact-card">
         <p class="contact-card__label">Get in touch</p>
         <div class="contact-card__lines">
-          <a href="mailto:luke@lukehuxley.com">luke@lukehuxley.com</a>
+          <a href="mailto:luke.huxley@gmail.com">luke.huxley@gmail.com</a>
         </div>
       </div>
     </section>
@@ -582,8 +610,7 @@
     <span>© 2026 Luke Huxley</span>
     <span class="spacer"></span>
     <a href="terms.html">Terms</a>
-    <a href="privacy.html">Privacy</a>
-    <a href="mailto:luke@lukehuxley.com">Contact</a>
+    <a href="mailto:luke.huxley@gmail.com">Contact</a>
   </footer>
 
   <script>

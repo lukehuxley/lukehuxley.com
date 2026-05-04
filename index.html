@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luke Huxley</title>
+  <meta name="description" content="A personal reference site for Luke Huxley's projects.">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
+  <link rel="stylesheet" href="colors_and_type.css">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('lh-theme');
+        var theme = saved === 'light' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (_) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+
+    html[data-theme="dark"] {
+      --bg:               var(--ink-black);
+      --bg-elevated:      #00222e;
+      --bg-warm:          #1f160a;
+      --bg-inverse:       var(--azure-mist);
+      --fg:               var(--azure-mist);
+      --fg-muted:         #8aa3ac;
+      --fg-subtle:        #5d7882;
+      --fg-inverse:       var(--ink-black);
+      --accent:           var(--tropical-teal);
+      --accent-hover:     var(--neon-ice);
+      --accent-press:     var(--teal);
+      --accent-fg:        var(--ink-black);
+      --border:           color-mix(in oklab, var(--azure-mist) 10%, transparent);
+      --border-strong:    color-mix(in oklab, var(--azure-mist) 18%, transparent);
+    }
+
+    /* Light mode: white page, azure-mist elevated surfaces (matches terms.html) */
+    html:not([data-theme="dark"]) {
+      --bg: #ffffff;
+      --bg-elevated: var(--azure-mist);
+    }
+
+    html {
+      background: var(--bg);
+      transition: background var(--dur-slow) var(--ease-out);
+    }
+    body {
+      background: transparent;
+      color: var(--fg);
+      min-height: 100vh;
+      position: relative;
+      transition: color var(--dur-slow) var(--ease-out);
+    }
+
+    /* Animated particle field (three.js) — anchored at top, scrolls with page, flipped vertically */
+    .bg-dots {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      transform: scaleY(-1);
+    }
+    .bg-dots canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bg-dots { display: none; }
+    }
+
+    html[data-theme="dark"] {
+      background-image: radial-gradient(
+        ellipse 800px 600px at 12% -10%,
+        color-mix(in oklab, var(--tropical-teal) 6%, transparent),
+        transparent 70%
+      );
+      background-attachment: fixed;
+    }
+
+    /* HEADER — subtle teal-tinted glass */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      border-bottom: 1px solid color-mix(in oklab, var(--tropical-teal) 14%, transparent);
+      background: color-mix(in oklab, var(--tropical-teal) 12%, color-mix(in oklab, #ffffff 35%, transparent));
+      color: var(--ink-black);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      box-shadow: 0 1px 0 0 color-mix(in oklab, white 45%, transparent) inset;
+      transition: background var(--dur-slow) var(--ease-out), border-color var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out);
+    }
+    html[data-theme="dark"] .header {
+      background: color-mix(in oklab, var(--dark-teal) 28%, transparent);
+      border-bottom-color: color-mix(in oklab, var(--tropical-teal) 14%, transparent);
+      color: var(--azure-mist);
+      box-shadow: 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 8%, transparent) inset;
+    }
+    .header .brand { color: inherit; }
+    .header__nav a { color: color-mix(in oklab, currentColor 70%, transparent); }
+    .header__nav a:hover { color: currentColor; background: color-mix(in oklab, var(--ink-black) 10%, transparent); }
+    html[data-theme="dark"] .header__nav a:hover { color: var(--neon-ice); background: color-mix(in oklab, var(--neon-ice) 14%, transparent); }
+    .header .theme-toggle { color: color-mix(in oklab, currentColor 70%, transparent); border-color: color-mix(in oklab, currentColor 25%, transparent); }
+    .header .theme-toggle:hover { color: currentColor; border-color: color-mix(in oklab, currentColor 50%, transparent); }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-title);
+      font-size: 22px;
+      letter-spacing: 0.005em;
+      color: var(--fg);
+      text-decoration: none;
+      background-image: none;
+    }
+    .brand img { width: 28px; height: 28px; }
+    .header__nav {
+      margin-left: auto;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .header__nav a {
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--fg-muted);
+      background-image: none;
+      transition: color var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out);
+    }
+
+
+    .theme-toggle {
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-strong);
+      background: transparent;
+      color: var(--fg-muted);
+      cursor: pointer;
+      margin-left: 8px;
+      padding: 0;
+      transition: color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+    }
+    .theme-toggle:hover { color: var(--fg); border-color: var(--accent); }
+    .theme-toggle:active { transform: scale(0.94); }
+    .theme-toggle svg { width: 16px; height: 16px; display: block; }
+    .theme-toggle .icon-sun { display: none; }
+    .theme-toggle .icon-moon { display: block; }
+    html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+    html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+    /* MAIN */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 96px 32px 96px;
+      animation: entry 320ms var(--ease-out) both;
+    }
+    @keyframes entry {
+      0% { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* HERO */
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-subtle);
+      margin: 0 0 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .eyebrow__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulse 2400ms ease-in-out infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+    h1.hero {
+      font-family: var(--font-title);
+      font-size: clamp(56px, 8vw, 96px);
+      line-height: 1;
+      letter-spacing: 0.005em;
+      font-weight: 400;
+      margin: 0 0 24px;
+      text-wrap: balance;
+    }
+    h1.hero .accent { color: var(--accent); }
+
+    .lede {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.2vw, 24px);
+      line-height: 1.45;
+      color: var(--fg-muted);
+      max-width: 56ch;
+      margin: 0 0 48px;
+      letter-spacing: -0.01em;
+    }
+
+    /* SECTION */
+    .section {
+      margin: 0 0 64px;
+    }
+    .section__head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+    .section__head h2 {
+      margin: 0;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 18px;
+      color: var(--fg);
+    }
+    .section__count {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--fg-subtle);
+    }
+
+    /* PROJECT LIST */
+    .projects { list-style: none; padding: 0; margin: 0; }
+    .project {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      gap: 24px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: baseline;
+      transition: background var(--dur-base) var(--ease-out);
+    }
+    .project:last-child { border: none; }
+    .project__year {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--fg-subtle);
+      letter-spacing: 0.02em;
+    }
+    .project__body { min-width: 0; }
+    .project__title {
+      font-family: var(--font-sans);
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--fg);
+      letter-spacing: -0.005em;
+      margin: 0 0 4px;
+    }
+    .project__desc {
+      font-size: 14px;
+      color: var(--fg-muted);
+      margin: 0;
+      line-height: 1.5;
+      max-width: 52ch;
+    }
+    .project__status {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: var(--fg-subtle);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .project__status.live { color: var(--accent); }
+    .project__status.wip { color: var(--burnt-orange); }
+    html[data-theme="dark"] .project__status.wip { color: #ff8a3d; }
+
+    /* ABOUT */
+    .about p {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--fg);
+      margin: 0 0 16px;
+      max-width: 64ch;
+    }
+    .about p.muted { color: var(--fg-muted); }
+
+    /* NOW CARD */
+    .now {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+    html[data-theme="dark"] .now { box-shadow: 0 0 30px rgba(0, 181, 186, 0.08); }
+    .now::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+    }
+    html[data-theme="dark"] .now::before { box-shadow: 0 0 16px var(--tropical-teal); }
+    .now__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 10px;
+    }
+    .now__body {
+      font-family: var(--font-display);
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      margin: 0 0 8px;
+    }
+    .now__detail {
+      font-size: 14px;
+      color: var(--fg-muted);
+      margin: 0;
+    }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--fg-subtle);
+      flex-wrap: wrap;
+    }
+    footer .spacer { flex: 1; }
+    footer a {
+      color: var(--fg-muted);
+      background-image: none;
+    }
+    footer a:hover { color: var(--fg); }
+
+    @media (max-width: 600px) {
+      .header { padding: 0 20px; }
+      main { padding: 64px 20px 64px; }
+      .header__nav a { padding: 6px 8px; font-size: 13px; }
+      .project { grid-template-columns: 64px 1fr; gap: 16px; }
+      .project__status { grid-column: 2; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-dots" id="bgDots" aria-hidden="true"></div>
+  <header class="header">
+    <a class="brand" href="index.html">
+      <img src="assets/logo.png" alt="">
+      <span>Luke Huxley</span>
+    </a>
+    <nav class="header__nav">
+      <a href="index.html">Home</a>
+      <a href="terms.html">Terms</a>
+      <a href="mailto:luke.huxley@gmail.com">Contact</a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme" title="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <p class="eyebrow"><span class="eyebrow__dot"></span>Personal reference site</p>
+    <h1 class="hero" style="font-family: &quot;Noto Serif&quot;">Luke <span class="accent">Huxley</span></h1>
+    <p class="lede">A small, deliberately quiet corner of the internet. A reference site for the projects, prototypes, and side experiments I keep alive.</p>
+
+    <section class="section about">
+      <div class="section__head">
+        <h2>About</h2>
+        <span class="section__count">/ 01</span>
+      </div>
+      <p>This site is a hub for the work I want to point people at. Each project I ship, whether it's a working tool, a research prototype, or a one-off weekend build, gets a home here with a short description and a link to the live thing.</p>
+    </section>
+
+    <section class="section">
+      <div class="section__head">
+        <h2>Projects</h2>
+        <span class="section__count">/ 02</span>
+      </div>
+      <ul class="projects">
+        <li class="project">
+          <span class="project__year">2026</span>
+          <div class="project__body">
+            <p class="project__title">In progress</p>
+            <p class="project__desc">Project entries will appear here as they're published. Each will link out to the live application and any supporting docs.</p>
+          </div>
+          <span class="project__status wip">Coming soon</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <div class="section__head">
+        <h2>Now</h2>
+        <span class="section__count">/ 03</span>
+      </div>
+      <div class="now">
+        <p class="now__label">Currently</p>
+        <p class="now__body">Setting up the scaffolding: auth, hosting, and the bits that have to be in place before the interesting work shows up.</p>
+        <p class="now__detail">Updated May 2026.</p>
+      </div>
+    </section>
+
+    <section class="section about">
+      <div class="section__head">
+        <h2>Legal</h2>
+        <span class="section__count">/ 04</span>
+      </div>
+      <p class="muted">Required reading for any project that asks for an account or talks to a third-party API on your behalf.</p>
+      <p>
+        <a href="terms.html">Terms of service</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 Luke Huxley</span>
+    <span class="spacer"></span>
+    <a href="terms.html">Terms</a>
+    <a href="mailto:luke.huxley@gmail.com">Contact</a>
+  </footer>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var current = document.documentElement.getAttribute('data-theme') || 'dark';
+        var next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('lh-theme', next); } catch (_) {}
+      });
+    })();
+
+    // Subtle wave-of-dots backdrop (three.js). No lines, no cursor interaction.
+    (function () {
+      var host = document.getElementById('bgDots');
+      if (!host) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      var script = document.createElement('script');
+      script.src = 'https://unpkg.com/three@0.160.0/build/three.min.js';
+      script.onload = init;
+      document.head.appendChild(script);
+
+      function getThemeColors() {
+        var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+        return dark
+          ? { dot: new THREE.Color(0x00b5ba), dotOpacity: 0.85 }
+          : { dot: new THREE.Color(0x007d86), dotOpacity: 0.55 };
+      }
+
+      function init() {
+        var THREE = window.THREE;
+        var w = host.clientWidth, h = host.clientHeight;
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 3000);
+        camera.position.set(0, 180, 520);
+        camera.lookAt(0, 0, 0);
+
+        var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(w, h);
+        renderer.setClearColor(0x000000, 0);
+        host.appendChild(renderer.domElement);
+
+        // Grid of dots laid out on the XZ plane; Y is animated as a wave.
+        var COLS = 60, ROWS = 40;
+        var SPACING = 26;
+        var COUNT = COLS * ROWS;
+        var basePositions = new Float32Array(COUNT * 3);
+        var positions = new Float32Array(COUNT * 3);
+        var i = 0;
+        for (var r = 0; r < ROWS; r++) {
+          for (var c = 0; c < COLS; c++) {
+            var x = (c - (COLS - 1) / 2) * SPACING;
+            var z = (r - (ROWS - 1) / 2) * SPACING;
+            basePositions[i * 3]     = x;
+            basePositions[i * 3 + 1] = 0;
+            basePositions[i * 3 + 2] = z;
+            positions[i * 3]     = x;
+            positions[i * 3 + 1] = 0;
+            positions[i * 3 + 2] = z;
+            i++;
+          }
+        }
+
+        var colors = getThemeColors();
+        var geom = new THREE.BufferGeometry();
+        geom.setAttribute('position', new THREE.BufferAttribute(positions, 3).setUsage(THREE.DynamicDrawUsage));
+        // Custom shader: round dots + distance fade.
+        var mat = new THREE.ShaderMaterial({
+          transparent: true,
+          depthWrite: false,
+          uniforms: {
+            uColor:    { value: colors.dot.clone() },
+            uOpacity:  { value: colors.dotOpacity },
+            uSize:     { value: 4.5 },
+            uFadeNear: { value: 200.0 },
+            uFadeFar:  { value: 650.0 }
+          },
+          vertexShader: [
+            'uniform float uSize;',
+            'uniform float uFadeNear;',
+            'uniform float uFadeFar;',
+            'varying float vFade;',
+            'varying float vSideFade;',
+            'void main() {',
+            '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
+            '  float dist = -mv.z;',
+            '  vFade = 1.0 - smoothstep(uFadeNear, uFadeFar, dist);',
+            '  vec4 clip = projectionMatrix * mv;',
+            '  float ndcX = abs(clip.x / clip.w);',
+            '  vSideFade = 1.0 - smoothstep(0.55, 1.0, ndcX);',
+            '  gl_Position = clip;',
+            '  gl_PointSize = uSize * (300.0 / dist);',
+            '}'
+          ].join('\n'),
+          fragmentShader: [
+            'uniform vec3 uColor;',
+            'uniform float uOpacity;',
+            'varying float vFade;',
+            'varying float vSideFade;',
+            'void main() {',
+            '  vec2 uv = gl_PointCoord - vec2(0.5);',
+            '  float r = length(uv);',
+            '  float alpha = smoothstep(0.5, 0.42, r);',
+            '  if (alpha <= 0.0) discard;',
+            '  gl_FragColor = vec4(uColor, alpha * uOpacity * vFade * vSideFade);',
+            '}'
+          ].join('\n')
+        });
+        var points = new THREE.Points(geom, mat);
+        scene.add(points);
+
+        // Connecting lines: each dot → diagonal neighbours (down-right + down-left). Gives every interior dot 4 connections at 45°, no duplicates.
+        var lineIndices = [];
+        for (var rr = 0; rr < ROWS; rr++) {
+          for (var cc = 0; cc < COLS; cc++) {
+            var idx = rr * COLS + cc;
+            if (rr < ROWS - 1 && cc < COLS - 1) { lineIndices.push(idx, idx + COLS + 1); } // down-right
+            if (rr < ROWS - 1 && cc > 0)        { lineIndices.push(idx, idx + COLS - 1); } // down-left
+          }
+        }
+        var lineGeom = new THREE.BufferGeometry();
+        lineGeom.setAttribute('position', geom.attributes.position); // share buffer with points
+        lineGeom.setIndex(lineIndices);
+        var lineMat = new THREE.ShaderMaterial({
+          transparent: true,
+          depthWrite: false,
+          uniforms: {
+            uColor:    { value: colors.dot.clone() },
+            uOpacity:  { value: colors.dotOpacity * 0.55 },
+            uFadeNear: { value: 200.0 },
+            uFadeFar:  { value: 650.0 }
+          },
+          vertexShader: [
+            'uniform float uFadeNear;',
+            'uniform float uFadeFar;',
+            'varying float vFade;',
+            'varying float vSideFade;',
+            'void main() {',
+            '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
+            '  float dist = -mv.z;',
+            '  vFade = 1.0 - smoothstep(uFadeNear, uFadeFar, dist);',
+            '  vec4 clip = projectionMatrix * mv;',
+            '  float ndcX = abs(clip.x / clip.w);',
+            '  vSideFade = 1.0 - smoothstep(0.55, 1.0, ndcX);',
+            '  gl_Position = clip;',
+            '}'
+          ].join('\n'),
+          fragmentShader: [
+            'uniform vec3 uColor;',
+            'uniform float uOpacity;',
+            'varying float vFade;',
+            'varying float vSideFade;',
+            'void main() {',
+            '  gl_FragColor = vec4(uColor, uOpacity * vFade * vSideFade);',
+            '}'
+          ].join('\n')
+        });
+        var lines = new THREE.LineSegments(lineGeom, lineMat);
+        scene.add(lines);
+
+        function resize() {
+          var nw = host.clientWidth, nh = host.clientHeight;
+          camera.aspect = nw / nh;
+          camera.updateProjectionMatrix();
+          renderer.setSize(nw, nh);
+        }
+        window.addEventListener('resize', resize);
+
+        // Re-skin on theme change
+        var observer = new MutationObserver(function () {
+          var c = getThemeColors();
+          mat.uniforms.uColor.value.copy(c.dot);
+          mat.uniforms.uOpacity.value = c.dotOpacity;
+          lineMat.uniforms.uColor.value.copy(c.dot);
+          lineMat.uniforms.uOpacity.value = c.dotOpacity * 0.55;
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+        var t0 = performance.now();
+        function tick() {
+          var t = (performance.now() - t0) * 0.0003; // 50% slower
+          // Two-direction sine wave on Y
+          for (var k = 0; k < COUNT; k++) {
+            var bx = basePositions[k * 3];
+            var bz = basePositions[k * 3 + 2];
+            var y =
+              Math.sin(bx * 0.012 + t * 1.4) * 18 +
+              Math.cos(bz * 0.014 + t * 1.1) * 14 +
+              Math.sin((bx + bz) * 0.008 + t * 0.7) * 8;
+            positions[k * 3]     = bx;
+            positions[k * 3 + 1] = y;
+            positions[k * 3 + 2] = bz;
+          }
+          geom.attributes.position.needsUpdate = true;
+          renderer.render(scene, camera);
+          requestAnimationFrame(tick);
+        }
+        tick();
+      }
+    })();
+  </script>
+</body>
+</html>
