@@ -107,6 +107,7 @@
       background-image: none;
     }
     .brand img { width: 28px; height: 28px; }
+    .brand span { white-space: nowrap; }
     .header__nav {
       margin-left: auto;
       display: flex;
@@ -427,14 +428,15 @@
       main { padding: 48px 20px 64px; }
       .header__nav a { padding: 6px 8px; font-size: 13px; }
       section.section h2 { font-size: 24px; }
+      .brand span { display: none; }
     }
   </style>
-<link id="gfont-Lato" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&amp;display=swap"></head>
+</head>
 <body>
   <header class="header">
     <a class="brand" href="/">
       <img src="assets/logo.png" alt="">
-      <span style="font-family: Lato;">Luke Huxley</span>
+      <span>Luke Huxley</span>
     </a>
     <nav class="header__nav">
       <a href="index.html">Home</a>
