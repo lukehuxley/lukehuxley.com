@@ -51,8 +51,8 @@
   --bg-inverse:       var(--ink-black);           /* dark sections         */
 
   --fg:               var(--ink-black);           /* primary text          */
-  --fg-muted:         #3a5560;                    /* secondary text        */
-  --fg-subtle:        #6b8089;                    /* tertiary, meta        */
+  --fg-muted:         color-mix(in oklab, var(--fg) 60%, transparent); /* secondary text        */
+  --fg-subtle:        color-mix(in oklab, var(--fg) 40%, transparent); /* tertiary, meta        */
   --fg-inverse:       var(--azure-mist);          /* on dark               */
 
   --accent:           var(--teal);                /* primary brand accent  */
@@ -162,7 +162,7 @@
   /* --------------------------------------------------------------------- */
   --content-prose:   72ch;
   --content-product: 1120px;
-  --header-height:   56px;
+  --header-height:   70px;
 }
 
 /* ===========================================================================

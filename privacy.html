@@ -36,8 +36,6 @@
       --bg-warm:          #1f160a;
       --bg-inverse:       var(--azure-mist);
       --fg:               var(--azure-mist);
-      --fg-muted:         #8aa3ac;
-      --fg-subtle:        #5d7882;
       --fg-inverse:       var(--ink-black);
       --accent:           var(--tropical-teal);
       --accent-hover:     var(--neon-ice);
@@ -51,14 +49,18 @@
       --bg-elevated: var(--azure-mist);
     }
 
+    html {
+      background: var(--bg);
+      transition: background var(--dur-slow) var(--ease-out);
+    }
     body {
-      background: var(--bg) !important;
+      background: transparent;
       color: var(--fg);
       min-height: 100vh;
       position: relative;
-      transition: background var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out);
+      transition: color var(--dur-slow) var(--ease-out);
     }
-    html[data-theme="dark"] body {
+    html[data-theme="dark"] {
       background-image: radial-gradient(
         ellipse 800px 600px at 12% -10%,
         color-mix(in oklab, var(--tropical-teal) 6%, transparent),
@@ -88,48 +90,55 @@
       .bg-dots { display: none; }
     }
 
-    /* HEADER */
+    /* HEADER — subtle teal-tinted glass */
     .header {
-      position: sticky;
-      top: 0;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 40px));
       z-index: 50;
-      height: var(--header-height);
       display: flex;
-      align-items: center;
-      padding: 0 32px;
-      border-bottom: 1px solid color-mix(in oklab, var(--tropical-teal) 14%, transparent);
+      flex-direction: column;
+      align-items: stretch;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
       background: color-mix(in oklab, var(--tropical-teal) 12%, color-mix(in oklab, #ffffff 35%, transparent));
       color: var(--ink-black);
       backdrop-filter: blur(28px) saturate(180%);
       -webkit-backdrop-filter: blur(28px) saturate(180%);
-      box-shadow: 0 1px 0 0 color-mix(in oklab, white 45%, transparent) inset;
-      transition: background var(--dur-slow) var(--ease-out), border-color var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out);
+      box-shadow: 0 4px 16px color-mix(in oklab, #000 10%, transparent), 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 20%, transparent) inset, 0 -1px 0 0 color-mix(in oklab, var(--dark-teal) 10%, transparent) inset;
+      transition: background var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out);
+    }
+    .header__bar {
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      flex-shrink: 0;
     }
     html[data-theme="dark"] .header {
       background: color-mix(in oklab, var(--dark-teal) 28%, transparent);
-      border-bottom-color: color-mix(in oklab, var(--tropical-teal) 14%, transparent);
       color: var(--azure-mist);
-      box-shadow: 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 8%, transparent) inset;
+      box-shadow: 0 4px 16px color-mix(in oklab, #000 10%, transparent), 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 40%, transparent) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.6) inset;
     }
     .header .brand { color: inherit; }
-    .header__nav a { color: color-mix(in oklab, currentColor 70%, transparent) !important; }
-    .header__nav a:hover { color: currentColor !important; background: color-mix(in oklab, var(--ink-black) 10%, transparent) !important; }
-    html[data-theme="dark"] .header__nav a:hover { color: var(--neon-ice) !important; background: color-mix(in oklab, var(--neon-ice) 14%, transparent) !important; }
     .header .theme-toggle { color: color-mix(in oklab, currentColor 70%, transparent); border-color: color-mix(in oklab, currentColor 25%, transparent); }
     .header .theme-toggle:hover { color: currentColor; border-color: color-mix(in oklab, currentColor 50%, transparent); }
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-family: var(--font-title);
-      font-size: 22px;
-      letter-spacing: 0.005em;
+      align-self: stretch;
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: var(--fw-semibold);
+      letter-spacing: -0.02em;
       color: var(--fg);
       text-decoration: none;
       background-image: none;
+      padding: 0 4px;
     }
-    .brand img { width: 28px; height: 28px; }
-    .brand span { white-space: nowrap; }
+    .brand .logo { margin: 0; line-height: 1; }
     .header__nav {
       margin-left: auto;
       display: flex;
@@ -137,7 +146,7 @@
       align-items: center;
       position: relative;
     }
-    .header__nav a {
+    .nav-link {
       padding: 6px 12px;
       border-radius: var(--radius-sm);
       font-family: var(--font-sans);
@@ -145,14 +154,13 @@
       font-weight: 500;
       color: var(--fg-muted);
       background-image: none;
+      text-decoration: none;
       transition: color var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out);
     }
-    .header__nav a:hover {
-      color: var(--fg);
-      background: color-mix(in oklab, var(--accent) 14%, transparent);
-    }
+    .nav-link:hover { color: var(--fg); background: color-mix(in oklab, currentColor 10%, transparent); }
+    html[data-theme="dark"] .nav-link:hover { color: var(--neon-ice); }
 
-    /* Hamburger menu — hidden by default, replaces inline links on narrow screens */
+    /* Hamburger menu — hidden when inline links fit */
     .menu-toggle {
       display: none;
       width: 36px;
@@ -172,47 +180,39 @@
     .menu-toggle:active { transform: scale(0.94); }
     .menu-toggle svg { width: 18px; height: 18px; display: block; }
     .menu-panel {
-      position: fixed;
-      top: calc(var(--header-height) + 5px);
-      right: 5px;
-      z-index: 51;
-      min-width: 180px;
-      padding: 6px;
-      border-radius: var(--radius-md);
-      background: color-mix(in oklab, var(--tropical-teal) 12%, color-mix(in oklab, #ffffff 35%, transparent));
-      border: 1px solid color-mix(in oklab, var(--tropical-teal) 14%, transparent);
-      backdrop-filter: blur(28px) saturate(180%);
-      -webkit-backdrop-filter: blur(28px) saturate(180%);
-      box-shadow: var(--shadow-md);
-      display: none;
+      display: flex;
       flex-direction: column;
-      gap: 2px;
-      transform-origin: top right;
-      animation: menu-pop 160ms var(--ease-out);
+      align-items: stretch;
+      gap: 4px;
+      padding: 0 16px;
+      max-height: 0;
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 color-mix(in oklab, white 55%, transparent),
+                  inset 0 -1px 0 rgba(0, 24, 36, 0.10);
+      transition: max-height var(--dur-slow) var(--ease-out), padding var(--dur-slow) var(--ease-out);
     }
     html[data-theme="dark"] .menu-panel {
-      background: color-mix(in oklab, var(--dark-teal) 28%, transparent);
-      border-color: color-mix(in oklab, var(--tropical-teal) 14%, transparent);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.45), 0 0 0 1px color-mix(in oklab, var(--tropical-teal) 14%, transparent);
+      box-shadow: inset 0 1px 0 color-mix(in oklab, var(--tropical-teal) 22%, transparent),
+                  inset 0 -1px 0 rgba(0, 0, 0, 0.30);
     }
-    .menu__nav[data-menu-open="true"] .menu-panel { display: flex; }
+    .header[data-menu-open="true"] .menu-panel {
+      max-height: 200px;
+      padding: 10px 16px 14px;
+    }
     .menu-panel a {
-      padding: 10px 14px !important;
-      font-size: 14px !important;
+      padding: 6px 12px;
+      font-size: 14px;
       border-radius: var(--radius-sm);
-      color: var(--fg-muted) !important;
+      color: var(--fg-muted);
       background-image: none;
       text-decoration: none;
+      transition: color var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out);
     }
     .menu-panel a:hover {
-      background: color-mix(in oklab, var(--accent) 14%, transparent) !important;
-      color: var(--fg) !important;
+      background: color-mix(in oklab, currentColor 10%, transparent);
+      color: var(--fg);
     }
-    html[data-theme="dark"] .menu-panel a:hover { color: var(--neon-ice) !important; }
-    @keyframes menu-pop {
-      from { opacity: 0; transform: translateY(-4px) scale(0.98); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
+    html[data-theme="dark"] .menu-panel a:hover { color: var(--neon-ice); }
 
     /* Theme toggle */
     .theme-toggle {
@@ -244,7 +244,7 @@
       z-index: 1;
       max-width: 760px;
       margin: 0 auto;
-      padding: 64px 32px 96px;
+      padding: 110px 32px 96px;
       animation: entry 320ms var(--ease-out) both;
     }
     @keyframes entry {
@@ -259,16 +259,18 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--fg-subtle);
-      margin: 0 0 16px;
+      margin: 0 0 20px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
     }
     .eyebrow__dot {
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulse 2400ms ease-in-out infinite;
     }
     h1.page-title {
       font-family: var(--font-display);
@@ -526,12 +528,9 @@
     footer a:hover { color: var(--fg); }
 
     @media (max-width: 600px) {
-      .header { padding: 0 20px; }
-      main { padding: 48px 20px 64px; }
-      .header__nav a { padding: 6px 8px; font-size: 13px; }
+      main { padding: 110px 20px 64px; }
       section.section h2 { font-size: 24px; }
-      .brand span { display: none; }
-      .header__nav > .nav-link { display: none; }
+      .nav-link { display: none; }
       .menu-toggle { display: inline-flex; }
     }
   </style>
@@ -539,32 +538,31 @@
 <body>
   <div class="bg-dots" id="bgDots" aria-hidden="true"></div>
   <header class="header">
-    <a class="brand" href="index.html">
-      <img src="assets/logo.png" alt="">
-      <span>Luke Huxley</span>
-    </a>
-    <nav class="header__nav">
-      <a class="nav-link" href="index.html">Home</a>
-      <a class="nav-link" href="terms.html">Terms</a>
-      <a class="nav-link" href="privacy.html">Privacy</a>
-      <a class="nav-link" href="mailto:luke.huxley@gmail.com">Contact</a>
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme" title="Toggle theme">
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
-      </button>
-      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-haspopup="true" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
-      </button>
+    <div class="header__bar">
+      <a class="brand" href="index.html">
+        <p class="logo">LH_</p>
+      </a>
+      <nav class="header__nav">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="terms.html">Terms</a>
+        <a class="nav-link" href="privacy.html">Privacy</a>
+        <a class="nav-link" href="mailto:luke.huxley@gmail.com">Contact</a>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        </button>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-haspopup="true" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+        </button>
+      </nav>
+    </div>
+    <nav class="menu-panel" role="navigation" aria-label="Site navigation">
+      <a href="index.html">Home</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="mailto:luke.huxley@gmail.com">Contact</a>
     </nav>
   </header>
-  <nav class="menu__nav">
-    <div class="menu-panel" role="menu">
-      <a href="index.html" role="menuitem">Home</a>
-      <a href="terms.html" role="menuitem">Terms</a>
-      <a href="privacy.html" role="menuitem">Privacy</a>
-      <a href="mailto:luke.huxley@gmail.com" role="menuitem">Contact</a>
-    </div>
-  </nav>
 
   <main>
     <p class="eyebrow"><span class="eyebrow__dot"></span>Legal · v1.0</p>
@@ -779,23 +777,21 @@
       });
     })();
 
-    // Hamburger menu (narrow screens)
+    // Hamburger menu
     (function () {
       var btn = document.getElementById('menuToggle');
-      var headerNav = document.querySelector('.header__nav');
-      var menuNav = document.querySelector('.menu__nav');
-      if (!btn || !headerNav) return;
+      var header = document.querySelector('.header');
+      if (!btn || !header) return;
       function setOpen(open) {
-        headerNav.setAttribute('data-menu-open', open ? 'true' : 'false');
-        menuNav.setAttribute('data-menu-open', open ? 'true' : 'false');
+        header.setAttribute('data-menu-open', open ? 'true' : 'false');
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       }
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
-        setOpen(headerNav.getAttribute('data-menu-open') !== 'true');
+        setOpen(header.getAttribute('data-menu-open') !== 'true');
       });
       document.addEventListener('click', function (e) {
-        if (!headerNav.contains(e.target)) setOpen(false);
+        if (!header.contains(e.target)) setOpen(false);
       });
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') setOpen(false);

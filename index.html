@@ -36,8 +36,6 @@
       --bg-warm:          #1f160a;
       --bg-inverse:       var(--azure-mist);
       --fg:               var(--azure-mist);
-      --fg-muted:         #8aa3ac;
-      --fg-subtle:        #5d7882;
       --fg-inverse:       var(--ink-black);
       --accent:           var(--tropical-teal);
       --accent-hover:     var(--neon-ice);
@@ -62,20 +60,20 @@
       color: var(--fg);
       min-height: 100vh;
       position: relative;
+      padding: 0 20px 20px;
       transition: color var(--dur-slow) var(--ease-out);
     }
 
-    /* Animated particle field (three.js) — anchored at top, scrolls with page, flipped vertically */
+    /* Animated particle field (three.js) — anchored at top, scrolls with page */
     .bg-dots {
       position: absolute;
       top: 0;
-      left: 0;
-      right: 0;
+      left: -20px;
+      right: -20px;
       height: 100vh;
       z-index: 0;
       pointer-events: none;
       overflow: hidden;
-      transform: scaleY(-1);
     }
     .bg-dots canvas {
       display: block;
@@ -97,46 +95,53 @@
 
     /* HEADER — subtle teal-tinted glass */
     .header {
-      position: sticky;
-      top: 0;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 40px));
       z-index: 50;
-      height: var(--header-height);
       display: flex;
-      align-items: center;
-      padding: 0 32px;
-      border-bottom: 1px solid color-mix(in oklab, var(--tropical-teal) 14%, transparent);
+      flex-direction: column;
+      align-items: stretch;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
       background: color-mix(in oklab, var(--tropical-teal) 12%, color-mix(in oklab, #ffffff 35%, transparent));
       color: var(--ink-black);
       backdrop-filter: blur(28px) saturate(180%);
       -webkit-backdrop-filter: blur(28px) saturate(180%);
-      box-shadow: 0 1px 0 0 color-mix(in oklab, white 45%, transparent) inset;
-      transition: background var(--dur-slow) var(--ease-out), border-color var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out);
+      box-shadow: 0 4px 16px color-mix(in oklab, #000 10%, transparent), 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 20%, transparent) inset, 0 -1px 0 0 color-mix(in oklab, var(--dark-teal) 10%, transparent) inset;
+      transition: background var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out);
+    }
+    .header__bar {
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      flex-shrink: 0;
     }
     html[data-theme="dark"] .header {
       background: color-mix(in oklab, var(--dark-teal) 28%, transparent);
-      border-bottom-color: color-mix(in oklab, var(--tropical-teal) 14%, transparent);
       color: var(--azure-mist);
-      box-shadow: 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 8%, transparent) inset;
+      box-shadow: 0 4px 16px color-mix(in oklab, #000 10%, transparent), 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 40%, transparent) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.6) inset;
     }
     .header .brand { color: inherit; }
-    .header__nav a { color: color-mix(in oklab, currentColor 70%, transparent); }
-    .header__nav a:hover { color: currentColor; background: color-mix(in oklab, var(--ink-black) 10%, transparent); }
-    html[data-theme="dark"] .header__nav a:hover { color: var(--neon-ice); background: color-mix(in oklab, var(--neon-ice) 14%, transparent); }
     .header .theme-toggle { color: color-mix(in oklab, currentColor 70%, transparent); border-color: color-mix(in oklab, currentColor 25%, transparent); }
     .header .theme-toggle:hover { color: currentColor; border-color: color-mix(in oklab, currentColor 50%, transparent); }
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-family: var(--font-title);
-      font-size: 22px;
-      letter-spacing: 0.005em;
+      align-self: stretch;
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: var(--fw-semibold);
+      letter-spacing: -0.02em;
       color: var(--fg);
       text-decoration: none;
       background-image: none;
+      padding: 0 4px;
     }
-    .brand img { width: 28px; height: 28px; }
-    .brand span { white-space: nowrap; }
+    .brand .logo { margin: 0; line-height: 1; }
     .header__nav {
       margin-left: auto;
       display: flex;
@@ -144,7 +149,7 @@
       align-items: center;
       position: relative;
     }
-    .header__nav a {
+    .nav-link {
       padding: 6px 12px;
       border-radius: var(--radius-sm);
       font-family: var(--font-sans);
@@ -152,11 +157,13 @@
       font-weight: 500;
       color: var(--fg-muted);
       background-image: none;
+      text-decoration: none;
       transition: color var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out);
     }
+    .nav-link:hover { color: var(--fg); background: color-mix(in oklab, currentColor 10%, transparent); }
+    html[data-theme="dark"] .nav-link:hover { color: var(--neon-ice); }
 
-
-    /* Hamburger menu — hidden by default, replaces inline links on narrow screens */
+    /* Hamburger menu — hidden when inline links fit */
     .menu-toggle {
       display: none;
       width: 36px;
@@ -176,47 +183,33 @@
     .menu-toggle:active { transform: scale(0.94); }
     .menu-toggle svg { width: 18px; height: 18px; display: block; }
     .menu-panel {
-      position: fixed;
-      top: calc(var(--header-height) + 5px);
-      right: 5px;
-      z-index: 51;
-      min-width: 180px;
-      padding: 6px;
-      border-radius: var(--radius-md);
-      background: color-mix(in oklab, var(--tropical-teal) 12%, color-mix(in oklab, #ffffff 35%, transparent));
-      border: 1px solid color-mix(in oklab, var(--tropical-teal) 14%, transparent);
-      backdrop-filter: blur(28px) saturate(180%);
-      -webkit-backdrop-filter: blur(28px) saturate(180%);
-      box-shadow: var(--shadow-md);
-      display: none;
+      display: flex;
       flex-direction: column;
-      gap: 2px;
-      transform-origin: top right;
-      animation: menu-pop 160ms var(--ease-out);
+      align-items: stretch;
+      gap: 4px;
+      padding: 0 16px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--dur-slow) var(--ease-out), padding var(--dur-slow) var(--ease-out);
     }
-    html[data-theme="dark"] .menu-panel {
-      background: color-mix(in oklab, var(--dark-teal) 28%, transparent);
-      border-color: color-mix(in oklab, var(--tropical-teal) 14%, transparent);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.45), 0 0 0 1px color-mix(in oklab, var(--tropical-teal) 14%, transparent);
+    .header[data-menu-open="true"] .menu-panel {
+      max-height: 200px;
+      padding: 10px 16px 14px;
     }
-    .menu__nav[data-menu-open="true"] .menu-panel { display: flex; }
     .menu-panel a {
-      padding: 10px 14px !important;
-      font-size: 14px !important;
+      padding: 6px 12px;
+      font-size: 14px;
       border-radius: var(--radius-sm);
-      color: var(--fg-muted) !important;
+      color: var(--fg-muted);
       background-image: none;
       text-decoration: none;
+      transition: color var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out);
     }
     .menu-panel a:hover {
-      background: color-mix(in oklab, var(--accent) 14%, transparent) !important;
-      color: var(--fg) !important;
+      background: color-mix(in oklab, currentColor 10%, transparent);
+      color: var(--fg);
     }
-    html[data-theme="dark"] .menu-panel a:hover { color: var(--neon-ice) !important; }
-    @keyframes menu-pop {
-      from { opacity: 0; transform: translateY(-4px) scale(0.98); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
+    html[data-theme="dark"] .menu-panel a:hover { color: var(--neon-ice); }
 
     .theme-toggle {
       width: 32px;
@@ -247,7 +240,7 @@
       z-index: 1;
       max-width: 760px;
       margin: 0 auto;
-      padding: 96px 32px 96px;
+      padding: 110px 32px 96px;
       animation: entry 320ms var(--ease-out) both;
     }
     @keyframes entry {
@@ -262,18 +255,16 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--fg-subtle);
-      margin: 0 0 20px;
+      margin: 0 0 16px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
     }
     .eyebrow__dot {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 10px var(--accent);
-      animation: pulse 2400ms ease-in-out infinite;
     }
     @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
 
@@ -441,13 +432,10 @@
     footer a:hover { color: var(--fg); }
 
     @media (max-width: 600px) {
-      .header { padding: 0 20px; }
-      main { padding: 64px 20px 64px; }
-      .header__nav a { padding: 6px 8px; font-size: 13px; }
+      main { padding: 120px 20px 64px; }
       .project { grid-template-columns: 64px 1fr; gap: 16px; }
       .project__status { grid-column: 2; }
-      .brand span { display: none; }
-      .header__nav > .nav-link { display: none; }
+      .nav-link { display: none; }
       .menu-toggle { display: inline-flex; }
     }
   </style>
@@ -455,32 +443,31 @@
 <body>
   <div class="bg-dots" id="bgDots" aria-hidden="true"></div>
   <header class="header">
-    <a class="brand" href="index.html">
-      <img src="assets/logo.png" alt="">
-      <span>Luke Huxley</span>
-    </a>
-    <nav class="header__nav">
-      <a class="nav-link" href="index.html">Home</a>
-      <a class="nav-link" href="terms.html">Terms</a>
-      <a class="nav-link" href="privacy.html">Privacy</a>
-      <a class="nav-link" href="mailto:luke.huxley@gmail.com">Contact</a>
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme" title="Toggle theme">
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
-      </button>
-      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-haspopup="true" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
-      </button>
+    <div class="header__bar">
+      <a class="brand" href="index.html">
+        <p class="logo">LH_</p>
+      </a>
+      <nav class="header__nav">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="terms.html">Terms</a>
+        <a class="nav-link" href="privacy.html">Privacy</a>
+        <a class="nav-link" href="mailto:luke.huxley@gmail.com">Contact</a>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme" title="Toggle theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        </button>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-haspopup="true" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+        </button>
+      </nav>
+    </div>
+    <nav class="menu-panel" role="navigation" aria-label="Site navigation">
+      <a href="index.html">Home</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="mailto:luke.huxley@gmail.com">Contact</a>
     </nav>
   </header>
-  <nav class="menu__nav">
-    <div class="menu-panel" role="menu">
-      <a href="index.html" role="menuitem">Home</a>
-      <a href="terms.html" role="menuitem">Terms</a>
-      <a href="privacy.html" role="menuitem">Privacy</a>
-      <a href="mailto:luke.huxley@gmail.com" role="menuitem">Contact</a>
-    </div>
-  </nav>
 
   <main>
     <p class="eyebrow"><span class="eyebrow__dot"></span>Personal reference site</p>
@@ -556,30 +543,28 @@
       });
     })();
 
-    // Hamburger menu (narrow screens)
+    // Hamburger menu
     (function () {
       var btn = document.getElementById('menuToggle');
-      var headerNav = document.querySelector('.header__nav');
-      var menuNav = document.querySelector('.menu__nav');
-      if (!btn || !headerNav) return;
+      var header = document.querySelector('.header');
+      if (!btn || !header) return;
       function setOpen(open) {
-        headerNav.setAttribute('data-menu-open', open ? 'true' : 'false');
-        menuNav.setAttribute('data-menu-open', open ? 'true' : 'false');
+        header.setAttribute('data-menu-open', open ? 'true' : 'false');
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       }
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
-        setOpen(headerNav.getAttribute('data-menu-open') !== 'true');
+        setOpen(header.getAttribute('data-menu-open') !== 'true');
       });
       document.addEventListener('click', function (e) {
-        if (!headerNav.contains(e.target)) setOpen(false);
+        if (!header.contains(e.target)) setOpen(false);
       });
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') setOpen(false);
       });
     })();
 
-    // Subtle wave-of-dots backdrop (three.js). No lines, no cursor interaction.
+    // Plane animation — vertices connected by edges, electrons traverse the circuit.
     (function () {
       var host = document.getElementById('bgDots');
       if (!host) return;
@@ -590,11 +575,16 @@
       script.onload = init;
       document.head.appendChild(script);
 
+      // ─── Brand colours ────────────────────────────────────────────────────
+      var C_DARK_BASE  = 0x00b5ba; // vertex/edge base colour — dark mode
+      var C_LIGHT_BASE = 0x00d5da; // vertex/edge base colour — light mode
+      var C_DARK_NEW   = 0x00fef0; // electron colour — dark mode (neon glow)
+      var C_LIGHT_NEW  = 0x00b5ba; // electron colour — light mode (ink)
+      // ─────────────────────────────────────────────────────────────────────
+
       function getThemeColors() {
         var dark = document.documentElement.getAttribute('data-theme') === 'dark';
-        return dark
-          ? { dot: new THREE.Color(0x00b5ba), dotOpacity: 0.85 }
-          : { dot: new THREE.Color(0x007d86), dotOpacity: 0.55 };
+        return { base: new THREE.Color(dark ? C_DARK_BASE : C_LIGHT_BASE) };
       }
 
       function init() {
@@ -602,6 +592,7 @@
         var w = host.clientWidth, h = host.clientHeight;
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 3000);
+        camera.up.set(0, -1, 0);
         camera.position.set(0, 180, 520);
         camera.lookAt(0, 0, 0);
 
@@ -611,47 +602,323 @@
         renderer.setClearColor(0x000000, 0);
         host.appendChild(renderer.domElement);
 
-        // Grid of dots laid out on the XZ plane; Y is animated as a wave.
-        var COLS = 60, ROWS = 40;
-        var SPACING = 26;
+        // Plane: vertices on an XZ grid, Y animated as a wave
+        var COLS = 60, ROWS = 40, SPACING = 26;
         var COUNT = COLS * ROWS;
         var basePositions = new Float32Array(COUNT * 3);
-        var positions = new Float32Array(COUNT * 3);
-        var i = 0;
+        var positions     = new Float32Array(COUNT * 3);
         for (var r = 0; r < ROWS; r++) {
           for (var c = 0; c < COLS; c++) {
+            var k = r * COLS + c;
             var x = (c - (COLS - 1) / 2) * SPACING;
             var z = (r - (ROWS - 1) / 2) * SPACING;
-            basePositions[i * 3]     = x;
-            basePositions[i * 3 + 1] = 0;
-            basePositions[i * 3 + 2] = z;
-            positions[i * 3]     = x;
-            positions[i * 3 + 1] = 0;
-            positions[i * 3 + 2] = z;
-            i++;
+            basePositions[k*3] = positions[k*3] = x;
+            basePositions[k*3+2] = positions[k*3+2] = z;
           }
         }
 
-        var colors = getThemeColors();
-        var geom = new THREE.BufferGeometry();
-        geom.setAttribute('position', new THREE.BufferAttribute(positions, 3).setUsage(THREE.DynamicDrawUsage));
-        // Custom shader: round dots + distance fade.
-        var mat = new THREE.ShaderMaterial({
-          transparent: true,
-          depthWrite: false,
+        // ─── Tweaks ───────────────────────────────────────────────────────
+        var E_COUNT           = 15;    // max simultaneous electrons
+        var E_SPEED_MIN       = 0.01;  // slowest electron (progress per frame)
+        var E_SPEED_MAX       = 0.2;   // fastest electron
+        var E_HUE_RANGE       = 90;    // hue deviation from base colour (± degrees)
+        var E_MIN_HOPS        = 3;     // min hops before an electron may die
+        var E_MAX_HOPS        = 10;    // max hops before an electron dies
+        var EDGE_GLOW_SIZE    = 2;     // edge size multiplier when New
+        var VERT_GLOW_BOOST   = 1;     // vertex glow brightness multiplier (dark mode only)
+        var T_NEW             = 600;   // frames: New → Stable
+        var T_STABLE          = 3600;  // frames in Stable before Legacy (0 = persist)
+        var T_LEGACY          = 600;   // frames: Legacy → Dead
+        var STABLE_CLUSTERS   = 100;   // number of pre-populated connected clusters
+        var STABLE_CLUSTER_SIZE = 10;  // edges per cluster walk
+        var EL_SIZE           = 10;    // electron dot size
+        var EL_BOOST          = 1;     // electron brightness
+        var EL_HALO           = 0;     // electron halo (0 = sharp, 1 = strong glow)
+        var EL_FADE_NEAR      = 300.0; // depth where elements begin fading
+        var EL_FADE_FAR       = 450.0; // depth where elements are fully faded
+        // ─────────────────────────────────────────────────────────────────
+
+        var isDark  = document.documentElement.getAttribute('data-theme') === 'dark';
+        var colors  = getThemeColors();
+        var lm      = isDark ? 0.0 : 1.0;
+
+        // ── Edges (dots) ──────────────────────────────────────────────────
+        // States: 0=Dead  1=New  2=Stable  3=Legacy
+        var edgeState = new Uint8Array(COUNT);
+        var edgeAge   = new Uint16Array(COUNT);
+        var edgeGlow  = new Float32Array(COUNT);
+        var edgeAlpha = new Float32Array(COUNT);
+        var edgeColor = new Float32Array(COUNT * 3);
+        var edgeGeom  = new THREE.BufferGeometry();
+        edgeGeom.setAttribute('position', new THREE.BufferAttribute(positions, 3).setUsage(THREE.DynamicDrawUsage));
+        edgeGeom.setAttribute('aGlow',    new THREE.BufferAttribute(edgeGlow, 1).setUsage(THREE.DynamicDrawUsage));
+        edgeGeom.setAttribute('aAlpha',   new THREE.BufferAttribute(edgeAlpha, 1).setUsage(THREE.DynamicDrawUsage));
+        edgeGeom.setAttribute('aColor',   new THREE.BufferAttribute(edgeColor, 3).setUsage(THREE.DynamicDrawUsage));
+        var edgeMat = new THREE.ShaderMaterial({
+          transparent: true, depthWrite: false,
           uniforms: {
-            uColor:    { value: colors.dot.clone() },
-            uOpacity:  { value: colors.dotOpacity },
-            uSize:     { value: 4.5 },
-            uFadeNear: { value: 200.0 },
-            uFadeFar:  { value: 650.0 }
+            uBase:      { value: colors.base.clone() },
+            uSize:      { value: 4.5 },
+            uDotSize:   { value: EDGE_GLOW_SIZE },
+            uFadeNear:  { value: EL_FADE_NEAR },
+            uFadeFar:   { value: EL_FADE_FAR },
+            uLightMode: { value: lm }
           },
           vertexShader: [
+            'attribute float aGlow;',
+            'attribute float aAlpha;',
+            'attribute vec3 aColor;',
+            'uniform float uSize;',
+            'uniform float uDotSize;',
+            'uniform float uFadeNear;',
+            'uniform float uFadeFar;',
+            'varying float vFade;',
+            'varying float vSideFade;',
+            'varying float vGlow;',
+            'varying float vAlpha;',
+            'varying vec3 vColor;',
+            'void main() {',
+            '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
+            '  float dist = -mv.z;',
+            '  vFade = 1.0 - smoothstep(uFadeNear, uFadeFar, dist);',
+            '  vec4 clip = projectionMatrix * mv;',
+            '  float ndcX = abs(clip.x / clip.w);',
+            '  vSideFade = 1.0 - smoothstep(0.55, 1.0, ndcX);',
+            '  vGlow = aGlow; vAlpha = aAlpha; vColor = aColor;',
+            '  gl_Position = clip;',
+            '  gl_PointSize = uSize * (1.0 + vGlow * uDotSize) * (300.0 / dist);',
+            '}'
+          ].join('\n'),
+          fragmentShader: [
+            'uniform vec3 uBase;',
+            'uniform float uLightMode;',
+            'varying float vFade;',
+            'varying float vSideFade;',
+            'varying float vGlow;',
+            'varying float vAlpha;',
+            'varying vec3 vColor;',
+            'void main() {',
+            '  vec2 uv = gl_PointCoord - vec2(0.5);',
+            '  float r = length(uv);',
+            '  float shape = smoothstep(0.5, 0.42, r);',
+            '  if (shape <= 0.0 || vAlpha <= 0.0) discard;',
+            '  vec3 col = mix(uBase, vColor, vGlow * 0.7) * (1.0 + vGlow * (1.0 - uLightMode));',
+            '  gl_FragColor = vec4(col, shape * vAlpha * vFade * vSideFade);',
+            '}'
+          ].join('\n')
+        });
+        scene.add(new THREE.Points(edgeGeom, edgeMat));
+
+        // ── Vertices (lines) + adjacency graph ────────────────────────────
+        // H + V + 2×diagonal per interior node; pre-computed to size the typed array
+        var VERT_COUNT = ROWS*(COLS-1) + (ROWS-1)*COLS + 2*(ROWS-1)*(COLS-1);
+        var vertPairs = new Int32Array(VERT_COUNT * 2); // flat [a0,b0, a1,b1, ...]
+        var adj = [];
+        for (var k = 0; k < COUNT; k++) adj.push([]);
+        var vpLen = 0;
+        for (var rr = 0; rr < ROWS; rr++) {
+          for (var cc = 0; cc < COLS; cc++) {
+            var idx = rr * COLS + cc, vi;
+            if (cc < COLS - 1) {
+              vi = vpLen; vertPairs[vi*2] = idx; vertPairs[vi*2+1] = idx+1; vpLen++;
+              adj[idx].push({ vi: vi, other: idx + 1 });
+              adj[idx + 1].push({ vi: vi, other: idx });
+            }
+            if (rr < ROWS - 1) {
+              vi = vpLen; vertPairs[vi*2] = idx; vertPairs[vi*2+1] = idx+COLS; vpLen++;
+              adj[idx].push({ vi: vi, other: idx + COLS });
+              adj[idx + COLS].push({ vi: vi, other: idx });
+            }
+            if (rr < ROWS - 1 && cc < COLS - 1) {
+              vi = vpLen; vertPairs[vi*2] = idx; vertPairs[vi*2+1] = idx+COLS+1; vpLen++;
+              adj[idx].push({ vi: vi, other: idx + COLS + 1 });
+              adj[idx + COLS + 1].push({ vi: vi, other: idx });
+            }
+            if (rr < ROWS - 1 && cc > 0) {
+              vi = vpLen; vertPairs[vi*2] = idx; vertPairs[vi*2+1] = idx+COLS-1; vpLen++;
+              adj[idx].push({ vi: vi, other: idx + COLS - 1 });
+              adj[idx + COLS - 1].push({ vi: vi, other: idx });
+            }
+          }
+        }
+        var vertState     = new Uint8Array(VERT_COUNT);   // 0=Dead 1=New 2=Stable 3=Legacy
+        var vertAge       = new Uint16Array(VERT_COUNT);
+        var vertGlow      = new Float32Array(VERT_COUNT * 2);
+        var vertAlpha     = new Float32Array(VERT_COUNT * 2);
+        var vertColor     = new Float32Array(VERT_COUNT * 6);
+        var vertPositions = new Float32Array(VERT_COUNT * 6);
+        for (var s = 0; s < VERT_COUNT; s++) {
+          var pa = vertPairs[s*2], pb = vertPairs[s*2+1];
+          vertPositions[s*6]   = positions[pa*3];   vertPositions[s*6+1] = positions[pa*3+1]; vertPositions[s*6+2] = positions[pa*3+2];
+          vertPositions[s*6+3] = positions[pb*3];   vertPositions[s*6+4] = positions[pb*3+1]; vertPositions[s*6+5] = positions[pb*3+2];
+        }
+        var vertGeom = new THREE.BufferGeometry();
+        vertGeom.setAttribute('position', new THREE.BufferAttribute(vertPositions, 3).setUsage(THREE.DynamicDrawUsage));
+        vertGeom.setAttribute('aGlow',    new THREE.BufferAttribute(vertGlow, 1).setUsage(THREE.DynamicDrawUsage));
+        vertGeom.setAttribute('aAlpha',   new THREE.BufferAttribute(vertAlpha, 1).setUsage(THREE.DynamicDrawUsage));
+        vertGeom.setAttribute('aColor',   new THREE.BufferAttribute(vertColor, 3).setUsage(THREE.DynamicDrawUsage));
+        var vertMat = new THREE.ShaderMaterial({
+          transparent: true, depthWrite: false,
+          uniforms: {
+            uBase:      { value: colors.base.clone() },
+            uLineBoost: { value: VERT_GLOW_BOOST },
+            uFadeNear:  { value: EL_FADE_NEAR },
+            uFadeFar:   { value: EL_FADE_FAR },
+            uLightMode: { value: lm }
+          },
+          vertexShader: [
+            'attribute float aGlow;',
+            'attribute float aAlpha;',
+            'attribute vec3 aColor;',
+            'uniform float uFadeNear;',
+            'uniform float uFadeFar;',
+            'varying float vFade;',
+            'varying float vSideFade;',
+            'varying float vGlow;',
+            'varying float vAlpha;',
+            'varying vec3 vColor;',
+            'void main() {',
+            '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
+            '  float dist = -mv.z;',
+            '  vFade = 1.0 - smoothstep(uFadeNear, uFadeFar, dist);',
+            '  vec4 clip = projectionMatrix * mv;',
+            '  float ndcX = abs(clip.x / clip.w);',
+            '  vSideFade = 1.0 - smoothstep(0.55, 1.0, ndcX);',
+            '  vGlow = aGlow; vAlpha = aAlpha; vColor = aColor;',
+            '  gl_Position = clip;',
+            '}'
+          ].join('\n'),
+          fragmentShader: [
+            'uniform vec3 uBase;',
+            'uniform float uLineBoost;',
+            'uniform float uLightMode;',
+            'varying float vFade;',
+            'varying float vSideFade;',
+            'varying float vGlow;',
+            'varying float vAlpha;',
+            'varying vec3 vColor;',
+            'void main() {',
+            '  if (vAlpha <= 0.0) discard;',
+            '  vec3 col = mix(uBase, vColor, vGlow * 0.75) * (1.0 + vGlow * uLineBoost * (1.0 - uLightMode));',
+            '  gl_FragColor = vec4(col, vAlpha * vFade * vSideFade);',
+            '}'
+          ].join('\n')
+        });
+        scene.add(new THREE.LineSegments(vertGeom, vertMat));
+
+        // ── Initial stable clusters ───────────────────────────────────────
+        var baseGlowHSL = {};
+        new THREE.Color(isDark ? C_DARK_NEW : C_LIGHT_NEW).getHSL(baseGlowHSL);
+        var _c = new THREE.Color(isDark ? C_DARK_NEW : C_LIGHT_NEW);
+        var stableNodes = [];
+        for (var ci = 0; ci < STABLE_CLUSTERS; ci++) {
+          var clNode = Math.floor(Math.random() * COUNT);
+          var clVisited = new Set([clNode]);
+          for (var step = 0; step < STABLE_CLUSTER_SIZE; step++) {
+            var links = adj[clNode], cands = [];
+            for (var j = 0; j < links.length; j++) { if (!clVisited.has(links[j].other)) cands.push(links[j]); }
+            if (!cands.length) break;
+            clNode = cands[Math.floor(Math.random() * cands.length)].other;
+            clVisited.add(clNode);
+          }
+          // Mark every node and all connecting vertices as Stable
+          clVisited.forEach(function(n) {
+            edgeState[n] = 2; edgeAlpha[n] = 1.0;
+            edgeColor[n*3] = _c.r; edgeColor[n*3+1] = _c.g; edgeColor[n*3+2] = _c.b;
+            stableNodes.push(n);
+            var nlinks = adj[n];
+            for (var j = 0; j < nlinks.length; j++) {
+              if (clVisited.has(nlinks[j].other)) {
+                var vi = nlinks[j].vi;
+                vertState[vi] = 2;
+                vertAlpha[vi*2] = vertAlpha[vi*2+1] = 1.0;
+                vertColor[vi*6]   = vertColor[vi*6+3] = _c.r;
+                vertColor[vi*6+1] = vertColor[vi*6+4] = _c.g;
+                vertColor[vi*6+2] = vertColor[vi*6+5] = _c.b;
+              }
+            }
+          });
+        }
+
+        window.addEventListener('resize', function () {
+          var nw = host.clientWidth, nh = host.clientHeight;
+          camera.aspect = nw / nh;
+          camera.updateProjectionMatrix();
+          renderer.setSize(nw, nh);
+        });
+
+        var observer = new MutationObserver(function () {
+          var c = getThemeColors();
+          isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+          lm = isDark ? 0.0 : 1.0;
+          edgeMat.uniforms.uBase.value.copy(c.base);
+          edgeMat.uniforms.uLightMode.value = lm;
+          vertMat.uniforms.uBase.value.copy(c.base);
+          vertMat.uniforms.uLightMode.value = lm;
+          new THREE.Color(isDark ? C_DARK_NEW : C_LIGHT_NEW).getHSL(baseGlowHSL);
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+        // ── Electrons ─────────────────────────────────────────────────────
+        var electrons = [];
+
+        function spawnElectron(nodeIdx) {
+          var links = adj[nodeIdx];
+          if (!links.length) return;
+          var link = links[Math.floor(Math.random() * links.length)];
+          var visited = new Set(); visited.add(nodeIdx);
+          var hueOff = (Math.random() * 2 - 1) * (E_HUE_RANGE / 2 / 360);
+          var ec = new THREE.Color().setHSL((baseGlowHSL.h + hueOff + 1) % 1, baseGlowHSL.s, baseGlowHSL.l);
+          var speed = E_SPEED_MIN + Math.random() * (E_SPEED_MAX - E_SPEED_MIN);
+          electrons.push({ node: nodeIdx, next: link.other, vi: link.vi, prog: 0, hops: 0, visited: visited, cr: ec.r, cg: ec.g, cb: ec.b, speed: speed });
+        }
+
+        // Weighted spawn: favour nodes with more Dead adjacent vertices (fills gaps first).
+        // Falls back to a full plane scan if the pool yields nothing.
+        function pickSpawnNode(pool) {
+          var weighted = [], i, ni, j, links, free, w;
+          if (pool && pool.length) {
+            for (i = 0; i < pool.length; i++) {
+              ni = pool[i]; links = adj[ni]; free = 0;
+              for (j = 0; j < links.length; j++) { if (vertState[links[j].vi] === 0) free++; }
+              for (w = 0; w < free; w++) weighted.push(ni);
+            }
+          }
+          if (!weighted.length) {
+            for (ni = 0; ni < COUNT; ni++) {
+              links = adj[ni]; free = 0;
+              for (j = 0; j < links.length; j++) { if (vertState[links[j].vi] === 0) free++; }
+              for (w = 0; w < free; w++) weighted.push(ni);
+            }
+          }
+          return weighted.length ? weighted[Math.floor(Math.random() * weighted.length)] : Math.floor(Math.random() * COUNT);
+        }
+
+        for (var ii = 0; ii < E_COUNT; ii++) spawnElectron(pickSpawnNode(stableNodes));
+
+        var electronPositions = new Float32Array(E_COUNT * 3);
+        var electronColors    = new Float32Array(E_COUNT * 3);
+        var electronGeom = new THREE.BufferGeometry();
+        electronGeom.setAttribute('position', new THREE.BufferAttribute(electronPositions, 3).setUsage(THREE.DynamicDrawUsage));
+        electronGeom.setAttribute('aColor',   new THREE.BufferAttribute(electronColors, 3).setUsage(THREE.DynamicDrawUsage));
+        electronGeom.setDrawRange(0, 0);
+        var electronMat = new THREE.ShaderMaterial({
+          transparent: true, depthWrite: false,
+          uniforms: {
+            uSize:     { value: EL_SIZE },
+            uBoost:    { value: EL_BOOST },
+            uHalo:     { value: EL_HALO },
+            uFadeNear: { value: EL_FADE_NEAR },
+            uFadeFar:  { value: EL_FADE_FAR }
+          },
+          vertexShader: [
+            'attribute vec3 aColor;',
             'uniform float uSize;',
             'uniform float uFadeNear;',
             'uniform float uFadeFar;',
             'varying float vFade;',
             'varying float vSideFade;',
+            'varying vec3 vColor;',
             'void main() {',
             '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
             '  float dist = -mv.z;',
@@ -659,110 +926,140 @@
             '  vec4 clip = projectionMatrix * mv;',
             '  float ndcX = abs(clip.x / clip.w);',
             '  vSideFade = 1.0 - smoothstep(0.55, 1.0, ndcX);',
+            '  vColor = aColor;',
             '  gl_Position = clip;',
             '  gl_PointSize = uSize * (300.0 / dist);',
             '}'
           ].join('\n'),
           fragmentShader: [
-            'uniform vec3 uColor;',
-            'uniform float uOpacity;',
+            'uniform float uBoost;',
+            'uniform float uHalo;',
             'varying float vFade;',
             'varying float vSideFade;',
+            'varying vec3 vColor;',
             'void main() {',
             '  vec2 uv = gl_PointCoord - vec2(0.5);',
             '  float r = length(uv);',
-            '  float alpha = smoothstep(0.5, 0.42, r);',
+            '  float core = smoothstep(0.22, 0.12, r);',
+            '  float halo = smoothstep(0.5, 0.18, r) * uHalo;',
+            '  float alpha = (core + halo) * uBoost;',
             '  if (alpha <= 0.0) discard;',
-            '  gl_FragColor = vec4(uColor, alpha * uOpacity * vFade * vSideFade);',
+            '  gl_FragColor = vec4(vColor, alpha * vFade * vSideFade);',
             '}'
           ].join('\n')
         });
-        var points = new THREE.Points(geom, mat);
-        scene.add(points);
+        scene.add(new THREE.Points(electronGeom, electronMat));
 
-        // Connecting lines: each dot → diagonal neighbours (down-right + down-left). Gives every interior dot 4 connections at 45°, no duplicates.
-        var lineIndices = [];
-        for (var rr = 0; rr < ROWS; rr++) {
-          for (var cc = 0; cc < COLS; cc++) {
-            var idx = rr * COLS + cc;
-            if (rr < ROWS - 1 && cc < COLS - 1) { lineIndices.push(idx, idx + COLS + 1); } // down-right
-            if (rr < ROWS - 1 && cc > 0)        { lineIndices.push(idx, idx + COLS - 1); } // down-left
-          }
-        }
-        var lineGeom = new THREE.BufferGeometry();
-        lineGeom.setAttribute('position', geom.attributes.position); // share buffer with points
-        lineGeom.setIndex(lineIndices);
-        var lineMat = new THREE.ShaderMaterial({
-          transparent: true,
-          depthWrite: false,
-          uniforms: {
-            uColor:    { value: colors.dot.clone() },
-            uOpacity:  { value: colors.dotOpacity * 0.55 },
-            uFadeNear: { value: 200.0 },
-            uFadeFar:  { value: 650.0 }
-          },
-          vertexShader: [
-            'uniform float uFadeNear;',
-            'uniform float uFadeFar;',
-            'varying float vFade;',
-            'varying float vSideFade;',
-            'void main() {',
-            '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
-            '  float dist = -mv.z;',
-            '  vFade = 1.0 - smoothstep(uFadeNear, uFadeFar, dist);',
-            '  vec4 clip = projectionMatrix * mv;',
-            '  float ndcX = abs(clip.x / clip.w);',
-            '  vSideFade = 1.0 - smoothstep(0.55, 1.0, ndcX);',
-            '  gl_Position = clip;',
-            '}'
-          ].join('\n'),
-          fragmentShader: [
-            'uniform vec3 uColor;',
-            'uniform float uOpacity;',
-            'varying float vFade;',
-            'varying float vSideFade;',
-            'void main() {',
-            '  gl_FragColor = vec4(uColor, uOpacity * vFade * vSideFade);',
-            '}'
-          ].join('\n')
-        });
-        var lines = new THREE.LineSegments(lineGeom, lineMat);
-        scene.add(lines);
-
-        function resize() {
-          var nw = host.clientWidth, nh = host.clientHeight;
-          camera.aspect = nw / nh;
-          camera.updateProjectionMatrix();
-          renderer.setSize(nw, nh);
-        }
-        window.addEventListener('resize', resize);
-
-        // Re-skin on theme change
-        var observer = new MutationObserver(function () {
-          var c = getThemeColors();
-          mat.uniforms.uColor.value.copy(c.dot);
-          mat.uniforms.uOpacity.value = c.dotOpacity;
-          lineMat.uniforms.uColor.value.copy(c.dot);
-          lineMat.uniforms.uOpacity.value = c.dotOpacity * 0.55;
-        });
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
+        // ── Tick ──────────────────────────────────────────────────────────
         var t0 = performance.now();
         function tick() {
-          var t = (performance.now() - t0) * 0.0003; // 50% slower
-          // Two-direction sine wave on Y
+          var t = (performance.now() - t0) * 0.0003;
+
+          // Wave
           for (var k = 0; k < COUNT; k++) {
-            var bx = basePositions[k * 3];
-            var bz = basePositions[k * 3 + 2];
-            var y =
+            var bx = basePositions[k*3], bz = basePositions[k*3+2];
+            positions[k*3+1] =
               Math.sin(bx * 0.012 + t * 1.4) * 18 +
               Math.cos(bz * 0.014 + t * 1.1) * 14 +
               Math.sin((bx + bz) * 0.008 + t * 0.7) * 8;
-            positions[k * 3]     = bx;
-            positions[k * 3 + 1] = y;
-            positions[k * 3 + 2] = bz;
           }
-          geom.attributes.position.needsUpdate = true;
+          edgeGeom.attributes.position.needsUpdate = true;
+
+          // Sync vertex positions from current node positions
+          for (var s = 0; s < VERT_COUNT; s++) {
+            var pa = vertPairs[s*2], pb = vertPairs[s*2+1];
+            vertPositions[s*6]   = positions[pa*3];   vertPositions[s*6+1] = positions[pa*3+1]; vertPositions[s*6+2] = positions[pa*3+2];
+            vertPositions[s*6+3] = positions[pb*3];   vertPositions[s*6+4] = positions[pb*3+1]; vertPositions[s*6+5] = positions[pb*3+2];
+          }
+          vertGeom.attributes.position.needsUpdate = true;
+
+          // Edge state machine
+          for (var k = 0; k < COUNT; k++) {
+            var es = edgeState[k];
+            if (es === 0) continue;
+            if (es === 1) {
+              edgeGlow[k] = 1.0 - edgeAge[k] / T_NEW;
+              if (++edgeAge[k] >= T_NEW) { edgeState[k] = 2; edgeAge[k] = 0; edgeGlow[k] = 0.0; }
+            } else if (es === 2) {
+              if (T_STABLE > 0 && ++edgeAge[k] >= T_STABLE) { edgeState[k] = 3; edgeAge[k] = 0; }
+            } else {
+              edgeAlpha[k] = 1.0 - edgeAge[k] / T_LEGACY;
+              if (++edgeAge[k] >= T_LEGACY) { edgeState[k] = 0; edgeAge[k] = 0; edgeAlpha[k] = 0.0; }
+            }
+          }
+
+          // Vertex state machine
+          for (var s = 0; s < VERT_COUNT; s++) {
+            var vs = vertState[s];
+            if (vs === 0) continue;
+            if (vs === 1) {
+              var g = 1.0 - vertAge[s] / T_NEW;
+              vertGlow[s*2] = vertGlow[s*2+1] = g;
+              if (++vertAge[s] >= T_NEW) { vertState[s] = 2; vertAge[s] = 0; vertGlow[s*2] = vertGlow[s*2+1] = 0.0; }
+            } else if (vs === 2) {
+              if (T_STABLE > 0 && ++vertAge[s] >= T_STABLE) { vertState[s] = 3; vertAge[s] = 0; }
+            } else {
+              var a = 1.0 - vertAge[s] / T_LEGACY;
+              vertAlpha[s*2] = vertAlpha[s*2+1] = a;
+              if (++vertAge[s] >= T_LEGACY) { vertState[s] = 0; vertAge[s] = 0; vertAlpha[s*2] = vertAlpha[s*2+1] = 0.0; }
+            }
+          }
+
+          if (electrons.length < E_COUNT) spawnElectron(pickSpawnNode(null));
+
+          // Advance electrons
+          for (var i = electrons.length - 1; i >= 0; i--) {
+            var e = electrons[i];
+            e.prog += e.speed;
+            if (e.prog >= 1.0) {
+              e.prog -= 1.0;
+              e.hops++;
+              var prevVi = e.vi;
+              e.node = e.next;
+              vertState[prevVi] = 1; vertAge[prevVi] = 0;
+              vertGlow[prevVi*2] = vertGlow[prevVi*2+1] = 1.0;
+              vertAlpha[prevVi*2] = vertAlpha[prevVi*2+1] = 1.0;
+              vertColor[prevVi*6]   = vertColor[prevVi*6+3] = e.cr;
+              vertColor[prevVi*6+1] = vertColor[prevVi*6+4] = e.cg;
+              vertColor[prevVi*6+2] = vertColor[prevVi*6+5] = e.cb;
+              edgeState[e.node] = 1; edgeAge[e.node] = 0;
+              edgeGlow[e.node] = 1.0; edgeAlpha[e.node] = 1.0;
+              edgeColor[e.node*3] = e.cr; edgeColor[e.node*3+1] = e.cg; edgeColor[e.node*3+2] = e.cb;
+              e.visited.add(e.node);
+              var opts = adj[e.node], n = opts.length, chosen = null;
+              var off = Math.floor(Math.random() * n);
+              for (var j = 0; j < n; j++) {
+                var cand = opts[(j + off) % n];
+                if (!e.visited.has(cand.other)) { chosen = cand; break; }
+              }
+              if (!chosen || e.hops >= E_MAX_HOPS || (e.hops >= E_MIN_HOPS && Math.random() < 0.12)) {
+                electrons.splice(i, 1); continue;
+              }
+              e.next = chosen.other;
+              e.vi   = chosen.vi;
+            }
+          }
+
+          // Update electron positions
+          for (var i = 0; i < electrons.length; i++) {
+            var e = electrons[i];
+            var p = Math.min(e.prog, 1.0);
+            electronPositions[i*3]   = positions[e.node*3]   + (positions[e.next*3]   - positions[e.node*3])   * p;
+            electronPositions[i*3+1] = positions[e.node*3+1] + (positions[e.next*3+1] - positions[e.node*3+1]) * p;
+            electronPositions[i*3+2] = positions[e.node*3+2] + (positions[e.next*3+2] - positions[e.node*3+2]) * p;
+            electronColors[i*3] = e.cr; electronColors[i*3+1] = e.cg; electronColors[i*3+2] = e.cb;
+          }
+          electronGeom.setDrawRange(0, electrons.length);
+          electronGeom.attributes.position.needsUpdate = true;
+          electronGeom.attributes.aColor.needsUpdate   = true;
+
+          edgeGeom.attributes.aGlow.needsUpdate  = true;
+          edgeGeom.attributes.aAlpha.needsUpdate  = true;
+          edgeGeom.attributes.aColor.needsUpdate  = true;
+          vertGeom.attributes.aGlow.needsUpdate   = true;
+          vertGeom.attributes.aAlpha.needsUpdate  = true;
+          vertGeom.attributes.aColor.needsUpdate  = true;
+
           renderer.render(scene, camera);
           requestAnimationFrame(tick);
         }
