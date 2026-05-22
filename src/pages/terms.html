@@ -1,0 +1,428 @@
+<!--
+title: Terms of Service · Luke Huxley
+description: Terms of service for applications and services published by Luke Huxley.
+activeNav: terms
+-->
+<!--#include "partials/head-open.html"-->
+    /* Animated particle field (three.js) — anchored at top, scrolls with page, flipped vertically */
+    .bg-dots { left: 0; right: 0; transform: scaleY(-1); }
+
+    /* MAIN */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 110px 32px 96px;
+      animation: entry 320ms var(--ease-out) both;
+    }
+    /* HERO */
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-subtle);
+      margin: 0 0 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .eyebrow__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    h1.page-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      font-weight: 600;
+      margin: 0 0 16px;
+      text-wrap: balance;
+    }
+    .page-title em {
+      color: var(--accent);
+      font-style: italic;
+      font-weight: 400;
+    }
+    .lede {
+      font-size: 19px;
+      line-height: 1.55;
+      color: var(--fg-muted);
+      max-width: 56ch;
+      margin: 0 0 24px;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--fg-subtle);
+      padding: 16px 0 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+    .meta__item { display: inline-flex; align-items: center; gap: 6px; }
+    .meta__label { color: var(--fg-subtle); }
+    .meta__value { color: var(--fg-muted); }
+
+    /* TOC */
+    .toc {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin: 0 0 48px;
+      box-shadow: var(--shadow-xs);
+    }
+    .toc__title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 12px;
+    }
+    .toc ol {
+      list-style: none;
+      counter-reset: toc;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 4px 24px;
+    }
+    .toc li {
+      counter-increment: toc;
+      font-size: 14px;
+    }
+    .toc a {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 4px 0;
+      color: var(--fg-muted);
+      background-image: none;
+    }
+    .toc a::before {
+      content: counter(toc, decimal-leading-zero);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--fg-subtle);
+      min-width: 20px;
+    }
+    .toc a:hover { color: var(--accent); }
+
+    /* SECTIONS */
+    section.section {
+      margin: 0 0 48px;
+      scroll-margin-top: calc(var(--header-height) + 16px);
+    }
+    section.section h2 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      line-height: 1.18;
+      letter-spacing: -0.015em;
+      font-weight: 600;
+      margin: 0 0 16px;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    section.section h2::before {
+      content: attr(data-num);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      font-weight: 500;
+      flex: none;
+    }
+    section.section h3 {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 600;
+      margin: 28px 0 8px;
+      letter-spacing: -0.01em;
+    }
+    section.section p {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--fg);
+      margin: 0 0 16px;
+      max-width: 68ch;
+    }
+    section.section ul {
+      margin: 0 0 16px;
+      padding-left: 24px;
+      max-width: 68ch;
+    }
+    section.section ul li {
+      font-size: 17px;
+      line-height: 1.65;
+      margin-bottom: 6px;
+      color: var(--fg);
+    }
+    section.section ul li::marker { color: var(--fg-subtle); }
+    section.section code {
+      font-size: 14px;
+    }
+    section.section a {
+      color: var(--accent);
+    }
+
+    /* CALLOUT */
+    .callout {
+      background: var(--bg-warm);
+      border: 1px solid color-mix(in oklab, var(--burnt-orange) 18%, transparent);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin: 0 0 32px;
+      position: relative;
+      box-shadow: 0 2px 6px rgba(186, 71, 0, 0.10), 0 1px 2px rgba(186, 71, 0, 0.06);
+    }
+    .callout__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--burnt-orange);
+      margin: 0 0 8px;
+    }
+    .callout p {
+      margin: 0;
+      color: var(--fg);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+    html[data-theme="dark"] .callout {
+      background: #6b3410;
+      border-color: var(--burnt-orange);
+      box-shadow: 0 0 30px rgba(255, 147, 52, 0.12);
+    }
+    html[data-theme="dark"] .callout__label,
+    html[data-theme="dark"] .callout p { color: var(--cornsilk); }
+    html[data-theme="dark"] .callout a { color: #ff9334; }
+    html[data-theme="dark"] .callout__label { color: #ff8a3d; }
+
+    /* CONTACT BLOCK */
+    .contact-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      margin: 16px 0 0;
+    }
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+    }
+    .contact-card__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 10px;
+    }
+    .contact-card__lines {
+      display: grid;
+      gap: 4px;
+    }
+    html[data-theme="dark"] .contact-card { box-shadow: 0 0 30px rgba(0, 181, 186, 0.08); }
+    html[data-theme="dark"] .contact-card::before { box-shadow: 0 0 16px var(--tropical-teal); }
+    .contact-card__lines a {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      color: var(--fg);
+      background-image: linear-gradient(var(--accent), var(--accent));
+      background-size: 0% 1px;
+      background-repeat: no-repeat;
+      background-position: 0 100%;
+      transition: background-size var(--dur-base) var(--ease-out);
+      width: fit-content;
+    }
+    .contact-card__lines a:hover { background-size: 100% 1px; }
+
+    @media (max-width: 600px) {
+      main { padding: 110px 20px 64px; }
+      section.section h2 { font-size: 24px; }
+    }
+<!--#include "partials/head-close.html"-->
+<body>
+  <div class="bg-dots" id="bgDots" aria-hidden="true"></div>
+<!--#include "partials/header.html"-->
+
+  <main>
+    <p class="eyebrow"><span class="eyebrow__dot"></span>Legal · v1.0</p>
+    <h1 class="page-title">Terms of Service</h1>
+    <p class="lede">The rules of the road for using my applications and services. Plain language where I can manage it; precise language where I can't.</p>
+
+    <div class="meta">
+      <span class="meta__item"><span class="meta__label">Effective</span><span class="meta__value">May 4, 2026</span></span>
+      <span class="meta__item"><span class="meta__label">Last updated</span><span class="meta__value">May 4, 2026</span></span>
+      <span class="meta__item"><span class="meta__label">Operator</span><span class="meta__value">Luke Huxley</span></span>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <p class="toc__title">Contents</p>
+      <ol>
+        <li><a href="#agreement">Agreement</a></li>
+        <li><a href="#service">The service</a></li>
+        <li><a href="#accounts">Accounts and access</a></li>
+        <li><a href="#google">Use of Google APIs</a></li>
+        <li><a href="#acceptable-use">Acceptable use</a></li>
+        <li><a href="#your-content">Your content</a></li>
+        <li><a href="#ip">Intellectual property</a></li>
+        <li><a href="#third-party">Third-party services</a></li>
+        <li><a href="#fees">Fees</a></li>
+        <li><a href="#termination">Termination</a></li>
+        <li><a href="#disclaimers">Disclaimers</a></li>
+        <li><a href="#liability">Limitation of liability</a></li>
+        <li><a href="#indemnity">Indemnification</a></li>
+        <li><a href="#changes">Changes to these terms</a></li>
+        <li><a href="#governing-law">Governing law</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="agreement">
+      <h2 data-num="01">Agreement</h2>
+      <p>These Terms of Service ("Terms") form a binding agreement between you and <strong>Luke Huxley</strong> ("I", "me", or "my"), the individual operator of the applications, websites, and services described below (collectively, the "Service"). By accessing or using the Service, including by signing in with a Google account, you agree to these Terms. If you do not agree, do not use the Service.</p>
+      <p>If you are using the Service on behalf of an organisation, you represent that you have the authority to accept these Terms on its behalf, and "you" means both you and that organisation.</p>
+    </section>
+
+    <section class="section" id="service">
+      <h2 data-num="02">The service</h2>
+      <p>The Service consists of personal-scale software projects that I build and operate. It may include web applications, command-line tools, and integrations with third-party platforms such as Google. Specific features, behavior, and availability are described on the relevant project page and may change from time to time.</p>
+      <p>The Service is provided as a personal project. It is not an enterprise product, it does not come with a service-level agreement, and it should not be treated as production-grade infrastructure unless I have told you otherwise in writing.</p>
+    </section>
+
+    <section class="section" id="accounts">
+      <h2 data-num="03">Accounts and access</h2>
+      <p>Some parts of the Service require an account. You may create an account by signing in with a supported identity provider, such as Google. You are responsible for:</p>
+      <ul>
+        <li>Keeping your account credentials secure.</li>
+        <li>All activity that occurs under your account.</li>
+        <li>Notifying me promptly if you suspect unauthorised use.</li>
+      </ul>
+      <p>You must be at least 13 years old to use the Service, or the minimum age required by your country's laws to consent to the processing of your personal data, whichever is higher.</p>
+    </section>
+
+    <section class="section" id="google">
+      <h2 data-num="04">Use of Google APIs</h2>
+      <p>The Service may request permission to access information from your Google account on your behalf, for example to read or modify data in Google services you have authorised. When it does so, the Service uses Google API Services and is bound by the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
+      <h3>What I commit to</h3>
+      <ul>
+        <li>I only request the minimum scopes needed for a feature you have asked for.</li>
+        <li>I use Google user data only to provide and improve the user-facing features of the Service.</li>
+        <li>I do not transfer Google user data to third parties except as necessary to provide or improve the Service, to comply with applicable law, or as part of a merger, acquisition, or sale of assets with appropriate notice to users.</li>
+        <li>I do not use Google user data for serving advertisements.</li>
+        <li>I do not allow humans to read your Google user data unless I have your explicit consent, it is necessary for security purposes (e.g. investigating abuse), to comply with applicable law, or the data is aggregated and used for internal operations in line with the User Data Policy.</li>
+      </ul>
+
+      <h3>Revoking access</h3>
+      <p>You can revoke the Service's access to your Google account at any time at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>. Revoking access will disable any features of the Service that depend on Google data.</p>
+
+      <div class="callout">
+        <p class="callout__label">Note</p>
+        <p>For details on what data is collected, how it is stored, and how it is used, please get in touch.</p>
+      </div>
+    </section>
+
+    <section class="section" id="acceptable-use">
+      <h2 data-num="05">Acceptable use</h2>
+      <p>You agree not to use the Service to:</p>
+      <ul>
+        <li>Break the law, infringe someone else's rights, or facilitate either.</li>
+        <li>Send spam, malware, or other harmful content.</li>
+        <li>Probe, scan, or test the vulnerability of the Service or its underlying systems without my prior written permission.</li>
+        <li>Reverse-engineer, decompile, or disassemble any part of the Service, except to the extent that this restriction is prohibited by applicable law.</li>
+        <li>Use automated means to access the Service in a way that places an unreasonable load on it.</li>
+        <li>Impersonate any person or misrepresent your affiliation with anyone.</li>
+        <li>Interfere with or disrupt the Service or the servers and networks connected to it.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="your-content">
+      <h2 data-num="06">Your content</h2>
+      <p>You retain all rights in any content you submit to or through the Service ("Your Content"). By submitting Your Content, you grant me a limited, non-exclusive, royalty-free licence to host, store, transmit, display, and process it solely as needed to operate and provide the Service to you.</p>
+      <p>You are responsible for Your Content and for ensuring you have the rights necessary to submit it. I may remove content that I reasonably believe violates these Terms or applicable law.</p>
+    </section>
+
+    <section class="section" id="ip">
+      <h2 data-num="07">Intellectual property</h2>
+      <p>The Service, including its software, design, and trademarks, is owned by me or licensed to me. Subject to your compliance with these Terms, I grant you a limited, non-exclusive, non-transferable, revocable licence to access and use the Service for its intended purpose. No other rights are granted by implication or otherwise.</p>
+      <p>Some components of the Service may be released under open-source licences; those components are governed by their own licence terms, which override these Terms with respect to that component.</p>
+    </section>
+
+    <section class="section" id="third-party">
+      <h2 data-num="08">Third-party services</h2>
+      <p>The Service may link to or interoperate with services provided by third parties, including Google. I am not responsible for the availability, content, or practices of those third-party services, and your use of them is governed by their own terms and privacy policies.</p>
+    </section>
+
+    <section class="section" id="fees">
+      <h2 data-num="09">Fees</h2>
+      <p>The Service is currently offered free of charge. If a feature becomes paid in the future, I will tell you about the fees, billing terms, and refund policy before you are charged. Your continued use of a paid feature after that disclosure constitutes acceptance of those terms.</p>
+    </section>
+
+    <section class="section" id="termination">
+      <h2 data-num="10">Termination</h2>
+      <p>You may stop using the Service at any time. I may suspend or terminate your access to the Service, with or without notice, if I reasonably believe you have violated these Terms, if continuing to provide the Service to you would expose me or others to legal or security risk, or if I discontinue the Service.</p>
+      <p>Sections of these Terms that by their nature should survive termination, including intellectual property, disclaimers, limitation of liability, and governing law, will survive.</p></p>
+    </section>
+
+    <section class="section" id="disclaimers">
+      <h2 data-num="11">Disclaimers</h2>
+      <p>The Service is provided <strong>"as is"</strong> and <strong>"as available"</strong>, without warranties of any kind, whether express or implied, including warranties of merchantability, fitness for a particular purpose, non-infringement, or that the Service will be uninterrupted, secure, or error-free. You use the Service at your own discretion and risk.</p>
+    </section>
+
+    <section class="section" id="liability">
+      <h2 data-num="12">Limitation of liability</h2>
+      <p>To the fullest extent permitted by law, I will not be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages, or for any loss of profits, revenue, data, or goodwill, arising out of or in connection with your use of the Service, even if I have been advised of the possibility of such damages.</p>
+      <p>My total liability for all claims arising out of or relating to the Service will not exceed <strong>one hundred US dollars (US$100)</strong>, or, if greater, the amount you paid me for use of the Service in the 12 months preceding the claim.</p>
+      <p>Some jurisdictions do not allow the exclusion or limitation of certain damages, so some of the above may not apply to you.</p>
+    </section>
+
+    <section class="section" id="indemnity">
+      <h2 data-num="13">Indemnification</h2>
+      <p>You agree to defend, indemnify, and hold me harmless from any claims, damages, liabilities, costs, and expenses (including reasonable legal fees) arising out of your use of the Service, Your Content, or your violation of these Terms or applicable law.</p>
+    </section>
+
+    <section class="section" id="changes">
+      <h2 data-num="14">Changes to these terms</h2>
+      <p>I may update these Terms from time to time. If I make a material change, I will update the "Last updated" date at the top of this page and, where reasonable, notify you through the Service. Your continued use of the Service after the change becomes effective constitutes acceptance of the updated Terms.</p>
+    </section>
+
+    <section class="section" id="governing-law">
+      <h2 data-num="15">Governing law</h2>
+      <p>These Terms are governed by the laws of the jurisdiction in which I primarily reside, without regard to its conflict-of-laws principles. The courts of that jurisdiction will have exclusive jurisdiction over any dispute arising out of or relating to these Terms or the Service, except that I may seek injunctive relief in any court of competent jurisdiction to protect my intellectual property rights.</p>
+    </section>
+
+    <section class="section" id="contact">
+      <h2 data-num="16">Contact</h2>
+      <p>Questions about these Terms? The fastest path is email; I read everything that comes in.</p>
+      <div class="contact-card">
+        <p class="contact-card__label">Get in touch</p>
+        <div class="contact-card__lines">
+          <a href="mailto:luke.huxley@gmail.com">luke.huxley@gmail.com</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<!--#include "partials/footer.html"-->
+<!--#include "partials/scripts.html"-->
+</body>
+</html>

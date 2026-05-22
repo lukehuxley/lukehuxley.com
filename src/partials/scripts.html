@@ -1,0 +1,60 @@
+  <script>
+    (function () {
+      var btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var current = document.documentElement.getAttribute('data-theme') || 'dark';
+        var next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('lh-theme', next); } catch (_) {}
+      });
+    })();
+
+    // Hamburger menu
+    (function () {
+      var btn = document.getElementById('menuToggle');
+      var header = document.querySelector('.header');
+      if (!btn || !header) return;
+      function setOpen(open) {
+        header.setAttribute('data-menu-open', open ? 'true' : 'false');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        setOpen(header.getAttribute('data-menu-open') !== 'true');
+      });
+      document.addEventListener('click', function (e) {
+        if (!header.contains(e.target)) setOpen(false);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') setOpen(false);
+      });
+    })();
+
+    // Header floating state — applies at all widths.
+    // When scrolled away from the top the header gains a larger shadow and grows
+    // slightly, implying it has lifted off the page surface.
+    (function () {
+      var header = document.querySelector('.header');
+      if (!header) return;
+
+      var THRESHOLD = 10;
+      var floating = false;
+
+      function update() {
+        var shouldFloat = window.scrollY > THRESHOLD;
+        if (shouldFloat === floating) return;
+        floating = shouldFloat;
+        header.classList.toggle('header--floating', floating);
+      }
+
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { update(); ticking = false; });
+      }, { passive: true });
+
+      update();
+    })();
+  </script>

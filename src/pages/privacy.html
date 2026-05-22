@@ -1,0 +1,481 @@
+<!--
+title: Privacy Policy · Luke Huxley
+description: Privacy policy for applications and services published by Luke Huxley, including disclosures required by Google API Services User Data Policy.
+activeNav: privacy
+-->
+<!--#include "partials/head-open.html"-->
+    /* Animated particle field (three.js) — anchored at top, scrolls with page, flipped vertically */
+    .bg-dots { left: 0; right: 0; transform: scaleY(-1); }
+
+    /* MAIN */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 110px 32px 96px;
+      animation: entry 320ms var(--ease-out) both;
+    }
+    /* HERO */
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-subtle);
+      margin: 0 0 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .eyebrow__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulse 2400ms ease-in-out infinite;
+    }
+    h1.page-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      font-weight: 600;
+      margin: 0 0 16px;
+      text-wrap: balance;
+    }
+    .page-title em {
+      color: var(--accent);
+      font-style: italic;
+      font-weight: 400;
+    }
+    .lede {
+      font-size: 19px;
+      line-height: 1.55;
+      color: var(--fg-muted);
+      max-width: 56ch;
+      margin: 0 0 24px;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--fg-subtle);
+      padding: 16px 0 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+    .meta__item { display: inline-flex; align-items: center; gap: 6px; }
+    .meta__label { color: var(--fg-subtle); }
+    .meta__value { color: var(--fg-muted); }
+
+    /* TOC */
+    .toc {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin: 0 0 48px;
+      box-shadow: var(--shadow-xs);
+    }
+    .toc__title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 12px;
+    }
+    .toc ol {
+      list-style: none;
+      counter-reset: toc;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 4px 24px;
+    }
+    .toc li {
+      counter-increment: toc;
+      font-size: 14px;
+    }
+    .toc a {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 4px 0;
+      color: var(--fg-muted);
+      background-image: none;
+    }
+    .toc a::before {
+      content: counter(toc, decimal-leading-zero);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--fg-subtle);
+      min-width: 20px;
+    }
+    .toc a:hover { color: var(--accent); }
+
+    /* SECTIONS */
+    section.section {
+      margin: 0 0 48px;
+      scroll-margin-top: calc(var(--header-height) + 16px);
+    }
+    section.section h2 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      line-height: 1.18;
+      letter-spacing: -0.015em;
+      font-weight: 600;
+      margin: 0 0 16px;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    section.section h2::before {
+      content: attr(data-num);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      font-weight: 500;
+      flex: none;
+    }
+    section.section h3 {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 600;
+      margin: 28px 0 8px;
+      letter-spacing: -0.01em;
+    }
+    section.section p {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--fg);
+      margin: 0 0 16px;
+      max-width: 68ch;
+    }
+    section.section ul {
+      margin: 0 0 16px;
+      padding-left: 24px;
+      max-width: 68ch;
+    }
+    section.section ul li {
+      font-size: 17px;
+      line-height: 1.65;
+      margin-bottom: 6px;
+      color: var(--fg);
+    }
+    section.section ul li::marker { color: var(--fg-subtle); }
+    section.section a { color: var(--accent); }
+
+    /* DATA TABLE */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 16px;
+      font-size: 15px;
+      max-width: 68ch;
+    }
+    .data-table th, .data-table td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .data-table th {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-subtle);
+      font-weight: 500;
+    }
+    .data-table td { color: var(--fg); line-height: 1.55; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    /* CALLOUT */
+    .callout {
+      background: var(--bg-warm);
+      border: 1px solid color-mix(in oklab, var(--burnt-orange) 18%, transparent);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin: 0 0 32px;
+      position: relative;
+      box-shadow: 0 2px 6px rgba(186, 71, 0, 0.10), 0 1px 2px rgba(186, 71, 0, 0.06);
+    }
+    .callout__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--burnt-orange);
+      margin: 0 0 8px;
+    }
+    .callout p {
+      margin: 0;
+      color: var(--fg);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+    html[data-theme="dark"] .callout {
+      background: #6b3410;
+      border-color: var(--burnt-orange);
+      box-shadow: 0 0 30px rgba(255, 147, 52, 0.12);
+    }
+    html[data-theme="dark"] .callout__label,
+    html[data-theme="dark"] .callout p { color: var(--cornsilk); }
+    html[data-theme="dark"] .callout a { color: #ff9334; }
+    html[data-theme="dark"] .callout__label { color: #ff8a3d; }
+
+    /* CONTACT BLOCK */
+    .contact-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      margin: 16px 0 0;
+    }
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+    }
+    .contact-card__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 10px;
+    }
+    .contact-card__lines { display: grid; gap: 4px; }
+    html[data-theme="dark"] .contact-card { box-shadow: 0 0 30px rgba(0, 181, 186, 0.08); }
+    html[data-theme="dark"] .contact-card::before { box-shadow: 0 0 16px var(--tropical-teal); }
+    .contact-card__lines a {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      color: var(--fg);
+      background-image: linear-gradient(var(--accent), var(--accent));
+      background-size: 0% 1px;
+      background-repeat: no-repeat;
+      background-position: 0 100%;
+      transition: background-size var(--dur-base) var(--ease-out);
+      width: fit-content;
+    }
+    .contact-card__lines a:hover { background-size: 100% 1px; }
+
+    @media (max-width: 600px) {
+      main { padding: 110px 20px 64px; }
+      section.section h2 { font-size: 24px; }
+    }
+<!--#include "partials/head-close.html"-->
+<body>
+  <div class="bg-dots" id="bgDots" aria-hidden="true"></div>
+<!--#include "partials/header.html"-->
+
+  <main>
+    <p class="eyebrow"><span class="eyebrow__dot"></span>Legal · v1.0</p>
+    <h1 class="page-title">Privacy Policy</h1>
+    <p class="lede">How my applications and services collect, use, and protect your information — including data accessed through Google APIs.</p>
+
+    <div class="meta">
+      <span class="meta__item"><span class="meta__label">Effective</span><span class="meta__value">May 4, 2026</span></span>
+      <span class="meta__item"><span class="meta__label">Last updated</span><span class="meta__value">May 4, 2026</span></span>
+      <span class="meta__item"><span class="meta__label">Operator</span><span class="meta__value">Luke Huxley</span></span>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <p class="toc__title">Contents</p>
+      <ol>
+        <li><a href="#scope">Scope</a></li>
+        <li><a href="#what-i-collect">What I collect</a></li>
+        <li><a href="#how-i-use-it">How I use it</a></li>
+        <li><a href="#google">Google user data</a></li>
+        <li><a href="#sharing">Sharing &amp; transfers</a></li>
+        <li><a href="#storage">Storage &amp; security</a></li>
+        <li><a href="#retention">Data retention</a></li>
+        <li><a href="#your-rights">Your rights</a></li>
+        <li><a href="#cookies">Cookies &amp; local storage</a></li>
+        <li><a href="#children">Children</a></li>
+        <li><a href="#international">International transfers</a></li>
+        <li><a href="#changes">Changes to this policy</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="scope">
+      <h2 data-num="01">Scope</h2>
+      <p>This Privacy Policy describes how I, <strong>Luke Huxley</strong>, the individual operator of the applications, websites, and services described on this site (collectively, the "Service"), handle personal information. It applies to anyone who interacts with the Service, including by signing in with a Google account.</p>
+      <p>This policy works alongside the <a href="terms.html">Terms of Service</a>. Capitalised terms not defined here have the meanings given in those Terms.</p>
+    </section>
+
+    <section class="section" id="what-i-collect">
+      <h2 data-num="02">What I collect</h2>
+      <p>I try to collect as little as I need to make a feature work. The categories below cover everything the Service may collect:</p>
+      <table class="data-table">
+        <thead>
+          <tr><th>Category</th><th>Examples</th><th>Source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Account identifiers</strong></td>
+            <td>Your email address, Google account ID, display name, and profile picture URL</td>
+            <td>You, via your identity provider (e.g. Google sign-in)</td>
+          </tr>
+          <tr>
+            <td><strong>Authorisation tokens</strong></td>
+            <td>OAuth access and refresh tokens scoped to the permissions you grant</td>
+            <td>Your identity provider, on your authorisation</td>
+          </tr>
+          <tr>
+            <td><strong>Google user data</strong></td>
+            <td>Only the data covered by the OAuth scopes you have approved (see <a href="#google">Section 4</a>)</td>
+            <td>Google APIs, on your authorisation</td>
+          </tr>
+          <tr>
+            <td><strong>Content you submit</strong></td>
+            <td>Text, files, settings, and other input you provide to the Service</td>
+            <td>You</td>
+          </tr>
+          <tr>
+            <td><strong>Technical logs</strong></td>
+            <td>IP address, user-agent string, request timestamps, error traces</td>
+            <td>Automatically, when you use the Service</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>I do <strong>not</strong> intentionally collect special-category data (such as health, religion, or political views), and I do not buy personal data from third parties.</p>
+    </section>
+
+    <section class="section" id="how-i-use-it">
+      <h2 data-num="03">How I use it</h2>
+      <p>I use the information I collect only to:</p>
+      <ul>
+        <li>Provide, operate, and maintain the user-facing features of the Service.</li>
+        <li>Authenticate you and keep your session secure.</li>
+        <li>Diagnose problems, prevent abuse, and improve reliability.</li>
+        <li>Communicate with you about the Service when you have asked me to or when I am required to.</li>
+        <li>Comply with applicable law.</li>
+      </ul>
+      <p>I do not use your information for advertising, profiling for marketing, or training generalised machine-learning models.</p>
+    </section>
+
+    <section class="section" id="google">
+      <h2 data-num="04">Google user data</h2>
+      <p>When you authorise the Service to access your Google account, the Service uses Google API Services and is bound by the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the <strong>Limited Use</strong> requirements. The following commitments apply to all data the Service receives from Google APIs ("Google user data").</p>
+
+      <h3>Limited Use commitments</h3>
+      <ul>
+        <li>The Service's use of Google user data is <strong>limited to providing or improving user-facing features</strong> that are prominent in the Service's user interface.</li>
+        <li>The Service does <strong>not</strong> transfer Google user data to third parties except as necessary to provide or improve user-facing features, to comply with applicable law, or as part of a merger, acquisition, or sale of assets with appropriate notice to users.</li>
+        <li>The Service does <strong>not</strong> use Google user data to serve advertisements, including retargeting, personalised, or interest-based advertising.</li>
+        <li>The Service does <strong>not</strong> allow humans to read Google user data, except: (a) with your explicit consent for specific data; (b) where necessary for security purposes (such as investigating abuse); (c) to comply with applicable law; or (d) where the data has been aggregated and anonymised so that it can no longer be associated with an individual user, and is used for internal operations consistent with the User Data Policy.</li>
+        <li>The Service does <strong>not</strong> use Google user data to develop, improve, or train generalised or non-personalised AI or machine-learning models.</li>
+      </ul>
+
+      <h3>Scopes I request</h3>
+      <p>The Service only requests OAuth scopes that are required for a feature you have asked for. You will see the requested scopes on Google's consent screen before you grant access; the Service does not request additional scopes silently after that point.</p>
+
+      <h3>Revoking access</h3>
+      <p>You can revoke the Service's access to your Google account at any time at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>. Once you revoke access, the Service can no longer call Google APIs on your behalf and any cached Google user data is deleted within the timeframe described in <a href="#retention">Section 7</a>.</p>
+
+      <div class="callout">
+        <p class="callout__label">In plain English</p>
+        <p>Your Google data is used to make the feature you authorised work, and nothing else. It is not sold, not used for ads, and not used to train AI models.</p>
+      </div>
+    </section>
+
+    <section class="section" id="sharing">
+      <h2 data-num="05">Sharing &amp; transfers</h2>
+      <p>I do not sell or rent personal information. I share it only in these limited cases:</p>
+      <ul>
+        <li><strong>Infrastructure providers</strong> who host the Service or store its data on my behalf, under contracts that require them to protect the data and use it only as I direct.</li>
+        <li><strong>Identity providers</strong> (such as Google) that you have chosen to sign in with — the relationship is yours, but technically the data passes through their systems.</li>
+        <li><strong>Legal compliance</strong>, when I am required by law, court order, or a binding regulatory request, and only to the extent necessary.</li>
+        <li><strong>Business transfers</strong>, if the Service is ever acquired or merged into another entity, in which case I will give you reasonable notice before your information becomes subject to a different privacy policy.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="storage">
+      <h2 data-num="06">Storage &amp; security</h2>
+      <p>Personal data and authorisation tokens are stored on infrastructure provided by reputable cloud platforms, with access restricted to me. I take reasonable technical and organisational measures to protect your information, including:</p>
+      <ul>
+        <li>TLS encryption for data in transit.</li>
+        <li>Encryption at rest for stored credentials and OAuth tokens.</li>
+        <li>Principle-of-least-privilege access controls.</li>
+        <li>Routine review of dependencies and patches for known vulnerabilities.</li>
+      </ul>
+      <p>No system is perfectly secure. If I become aware of a security incident affecting your information, I will notify you and any required authority as soon as reasonably practicable.</p>
+    </section>
+
+    <section class="section" id="retention">
+      <h2 data-num="07">Data retention</h2>
+      <p>I keep personal information only as long as needed for the purposes described in this policy:</p>
+      <ul>
+        <li><strong>Account identifiers and OAuth tokens</strong> are kept while your account is active and deleted within 30 days of you deleting your account or revoking the Service's access.</li>
+        <li><strong>Cached Google user data</strong> is kept only as long as needed to fulfil your most recent request, and is deleted promptly thereafter — typically within 24 hours, and within 30 days at the outside.</li>
+        <li><strong>Technical logs</strong> are retained for up to 90 days, then deleted or aggregated into non-identifying metrics.</li>
+        <li><strong>Records I am legally required to keep</strong> (such as billing or tax records, if applicable) are retained for the period the relevant law requires.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="your-rights">
+      <h2 data-num="08">Your rights</h2>
+      <p>Depending on where you live, you may have rights under privacy laws such as the GDPR (EU/UK), the CCPA/CPRA (California), or similar regimes. These typically include the right to:</p>
+      <ul>
+        <li>Access the personal information I hold about you.</li>
+        <li>Correct information that is inaccurate or incomplete.</li>
+        <li>Delete information, subject to legal retention requirements.</li>
+        <li>Object to or restrict certain processing.</li>
+        <li>Receive a portable copy of your information.</li>
+        <li>Withdraw consent at any time, where processing is based on consent.</li>
+        <li>Lodge a complaint with your local data-protection authority.</li>
+      </ul>
+      <p>To exercise any of these rights, email me using the address in <a href="#contact">Section 13</a>. I will respond within the timeframe required by the applicable law (typically 30 days).</p>
+    </section>
+
+    <section class="section" id="cookies">
+      <h2 data-num="09">Cookies &amp; local storage</h2>
+      <p>The Service uses a small number of strictly necessary cookies and browser local-storage entries to keep you signed in and to remember preferences such as your chosen colour theme. It does not use third-party advertising or analytics cookies.</p>
+    </section>
+
+    <section class="section" id="children">
+      <h2 data-num="10">Children</h2>
+      <p>The Service is not directed at children under 13, and I do not knowingly collect personal information from children under 13. If you believe a child has provided me with personal information, please contact me and I will delete it.</p>
+    </section>
+
+    <section class="section" id="international">
+      <h2 data-num="11">International transfers</h2>
+      <p>The Service may be operated from, and your information may be processed in, countries other than the one you live in. Where such transfers are subject to data-protection law, I rely on appropriate safeguards (such as standard contractual clauses) to protect your information.</p>
+    </section>
+
+    <section class="section" id="changes">
+      <h2 data-num="12">Changes to this policy</h2>
+      <p>I may update this policy from time to time. If I make a material change, I will update the "Last updated" date at the top of this page and, where reasonable, notify you through the Service. Your continued use of the Service after the change becomes effective constitutes acceptance of the updated policy.</p>
+    </section>
+
+    <section class="section" id="contact">
+      <h2 data-num="13">Contact</h2>
+      <p>Questions, requests about your data, or anything else privacy-related — email me directly. I read every message.</p>
+      <div class="contact-card">
+        <p class="contact-card__label">Get in touch</p>
+        <div class="contact-card__lines">
+          <a href="mailto:luke.huxley@gmail.com">luke.huxley@gmail.com</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<!--#include "partials/footer.html"-->
+<!--#include "partials/scripts.html"-->
+</body>
+</html>
