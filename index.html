@@ -60,16 +60,12 @@
       color: var(--fg);
       min-height: 100vh;
       position: relative;
-      padding: 0 20px 20px;
       transition: color var(--dur-slow) var(--ease-out);
     }
 
-    /* Animated particle field (three.js) — anchored at top, scrolls with page */
     .bg-dots {
       position: absolute;
       top: 0;
-      left: -20px;
-      right: -20px;
       height: 100vh;
       z-index: 0;
       pointer-events: none;
@@ -84,13 +80,22 @@
       .bg-dots { display: none; }
     }
 
-    html[data-theme="dark"] {
-      background-image: radial-gradient(
-        ellipse 800px 600px at 12% -10%,
-        color-mix(in oklab, var(--tropical-teal) 6%, transparent),
-        transparent 70%
+    html {
+      background-color: color-mix(in oklab, var(--teal) 6%, var(--bg));
+      background-image: linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--teal) 12%, var(--bg)),
+        var(--bg) 400px
       );
-      background-attachment: fixed;
+    }
+
+    html[data-theme="dark"] {
+      background-color: color-mix(in oklab, var(--tropical-teal) 6%, var(--ink-black));
+      background-image: linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--tropical-teal) 6%, var(--ink-black)),
+        var(--ink-black) 400px
+      );
     }
 
     /* HEADER — subtle teal-tinted glass */
@@ -106,12 +111,26 @@
       align-items: stretch;
       overflow: hidden;
       border-radius: var(--radius-lg);
-      background: color-mix(in oklab, var(--tropical-teal) 12%, color-mix(in oklab, #ffffff 35%, transparent));
+      background: color-mix(in oklab, color-mix(in oklab, var(--teal) 75%, var(--tropical-teal)) 20%, color-mix(in oklab, #ffffff 30%, transparent));
       color: var(--ink-black);
       backdrop-filter: blur(28px) saturate(180%);
       -webkit-backdrop-filter: blur(28px) saturate(180%);
-      box-shadow: 0 4px 16px color-mix(in oklab, #000 10%, transparent), 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 25%, transparent) inset, 0 -1px 0 0 color-mix(in oklab, var(--dark-teal) 15%, transparent) inset;
-      transition: background var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out);
+      box-shadow: 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 25%, transparent) inset, 0 -1px 0 0 color-mix(in oklab, var(--dark-teal) 15%, transparent) inset;
+      transition: background var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out), box-shadow 400ms var(--ease-out), width 300ms var(--ease-out), top 300ms var(--ease-out);
+      backface-visibility: hidden;
+    }
+    html[data-theme="dark"] .header {
+      background: color-mix(in oklab, var(--dark-teal) 28%, transparent);
+      color: var(--azure-mist);
+      box-shadow: 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 45%, transparent) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.65) inset;
+    }
+    .header--floating {
+      top: 18px;
+      width: min(780px, calc(100% - 28px));
+      box-shadow: 0 4px 12px color-mix(in oklab, #000 6%, transparent), 0 10px 32px color-mix(in oklab, #000 9%, transparent), 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 28%, transparent) inset, 0 -1px 0 0 color-mix(in oklab, var(--dark-teal) 17%, transparent) inset;
+    }
+    html[data-theme="dark"] .header--floating {
+      box-shadow: 0 4px 12px color-mix(in oklab, #000 10%, transparent), 0 10px 32px color-mix(in oklab, #000 15%, transparent), 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 50%, transparent) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.75) inset;
     }
     .header__bar {
       height: var(--header-height);
@@ -120,12 +139,7 @@
       padding: 0 20px;
       flex-shrink: 0;
     }
-    html[data-theme="dark"] .header {
-      background: color-mix(in oklab, var(--dark-teal) 28%, transparent);
-      color: var(--azure-mist);
-      box-shadow: 0 4px 16px color-mix(in oklab, #000 10%, transparent), 0 1px 0 0 color-mix(in oklab, var(--tropical-teal) 45%, transparent) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.65) inset;
-    }
-    .header .brand { color: inherit; }
+.header .brand { color: inherit; }
     .header .theme-toggle { color: color-mix(in oklab, currentColor 70%, transparent); border-color: color-mix(in oklab, currentColor 25%, transparent); }
     .header .theme-toggle:hover { color: currentColor; border-color: color-mix(in oklab, currentColor 50%, transparent); }
     .brand {
@@ -234,183 +248,16 @@
     html[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
     html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
-    /* MAIN */
-    main {
-      position: relative;
-      z-index: 1;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 110px 32px 96px;
-      animation: entry 320ms var(--ease-out) both;
+    @media (max-width: 600px) {
+      .nav-link { display: none; }
+      .menu-toggle { display: inline-flex; }
     }
+
     @keyframes entry {
       0% { opacity: 0; transform: translateY(8px); }
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* HERO */
-    .eyebrow {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--fg-subtle);
-      margin: 0 0 16px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .eyebrow__dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-    }
-    @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-
-    h1.hero {
-      font-family: var(--font-title);
-      font-size: clamp(56px, 8vw, 96px);
-      line-height: 1;
-      letter-spacing: 0.005em;
-      font-weight: 400;
-      margin: 0 0 24px;
-      text-wrap: balance;
-    }
-    h1.hero .accent { color: var(--accent); }
-
-    .lede {
-      font-family: var(--font-display);
-      font-size: clamp(20px, 2.2vw, 24px);
-      line-height: 1.45;
-      color: var(--fg-muted);
-      max-width: 56ch;
-      margin: 0 0 48px;
-      letter-spacing: -0.01em;
-    }
-
-    /* SECTION */
-    .section {
-      margin: 0 0 64px;
-    }
-    .section__head {
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 12px;
-    }
-    .section__head h2 {
-      margin: 0;
-      font-family: var(--font-sans);
-      font-weight: 600;
-      font-size: 18px;
-      color: var(--fg);
-    }
-    .section__count {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--fg-subtle);
-    }
-
-    /* PROJECT LIST */
-    .projects { list-style: none; padding: 0; margin: 0; }
-    .project {
-      display: grid;
-      grid-template-columns: 90px 1fr auto;
-      gap: 24px;
-      padding: 18px 0;
-      border-bottom: 1px solid var(--border);
-      align-items: baseline;
-      transition: background var(--dur-base) var(--ease-out);
-    }
-    .project:last-child { border: none; }
-    .project__year {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--fg-subtle);
-      letter-spacing: 0.02em;
-    }
-    .project__body { min-width: 0; }
-    .project__title {
-      font-family: var(--font-sans);
-      font-size: 17px;
-      font-weight: 500;
-      color: var(--fg);
-      letter-spacing: -0.005em;
-      margin: 0 0 4px;
-    }
-    .project__desc {
-      font-size: 14px;
-      color: var(--fg-muted);
-      margin: 0;
-      line-height: 1.5;
-      max-width: 52ch;
-    }
-    .project__status {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.04em;
-      color: var(--fg-subtle);
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-    .project__status.live { color: var(--accent); }
-    .project__status.wip { color: var(--burnt-orange); }
-    html[data-theme="dark"] .project__status.wip { color: #ff8a3d; }
-
-    /* ABOUT */
-    .about p {
-      font-size: 17px;
-      line-height: 1.65;
-      color: var(--fg);
-      margin: 0 0 16px;
-      max-width: 64ch;
-    }
-    .about p.muted { color: var(--fg-muted); }
-
-    /* NOW CARD */
-    .now {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 24px 28px;
-      box-shadow: var(--shadow-sm);
-      position: relative;
-      overflow: hidden;
-    }
-    html[data-theme="dark"] .now { box-shadow: 0 0 30px rgba(0, 181, 186, 0.08); }
-    .now::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; bottom: 0;
-      width: 3px;
-      background: var(--accent);
-    }
-    html[data-theme="dark"] .now::before { box-shadow: 0 0 16px var(--tropical-teal); }
-    .now__label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin: 0 0 10px;
-    }
-    .now__body {
-      font-family: var(--font-display);
-      font-size: 22px;
-      line-height: 1.3;
-      letter-spacing: -0.01em;
-      margin: 0 0 8px;
-    }
-    .now__detail {
-      font-size: 14px;
-      color: var(--fg-muted);
-      margin: 0;
-    }
-
-    /* FOOTER */
     footer {
       position: relative;
       z-index: 1;
@@ -425,30 +272,205 @@
       flex-wrap: wrap;
     }
     footer .spacer { flex: 1; }
-    footer a {
-      color: var(--fg-muted);
-      background-image: none;
-    }
+    footer a { color: var(--fg-muted); background-image: none; }
     footer a:hover { color: var(--fg); }
 
-    @media (max-width: 600px) {
-      main { padding: 120px 20px 64px; }
-      .project { grid-template-columns: 64px 1fr; gap: 16px; }
-      .project__status { grid-column: 2; }
-      .nav-link { display: none; }
-      .menu-toggle { display: inline-flex; }
-    }
+
+/* Animated particle field (three.js) — anchored at top, scrolls with page */
+.bg-dots { 
+  left: 0; 
+  right: 0; 
+  height: 800px 
+}
+
+/* MAIN */
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 130px 32px 96px;
+  animation: entry 320ms var(--ease-out) both;
+}
+/* HERO */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+  margin: 0 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.eyebrow__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+@keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+h1.hero {
+  font-family: var(--font-title);
+  font-size: clamp(56px, 8vw, 96px);
+  line-height: 1;
+  letter-spacing: 0.005em;
+  font-weight: 400;
+  margin: 0 0 30px;
+  text-wrap: balance;
+}
+h1.hero .accent { color: var(--accent); }
+
+.lede {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.2vw, 24px);
+  line-height: 1.45;
+  color: var(--fg-muted);
+  max-width: 56ch;
+  margin: 0 0 90px;
+  letter-spacing: -0.01em;
+}
+
+/* SECTION */
+.section {
+  margin: 0 0 64px;
+}
+.section__head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.section__head h2 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--fg);
+}
+.section__count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-subtle);
+}
+
+/* PROJECT LIST */
+.projects { list-style: none; padding: 0; margin: 0; }
+.project {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: baseline;
+  transition: background var(--dur-base) var(--ease-out);
+}
+.project:last-child { border: none; }
+.project__year {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-subtle);
+  letter-spacing: 0.02em;
+}
+.project__body { min-width: 0; }
+.project__title {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--fg);
+  letter-spacing: -0.005em;
+  margin: 0 0 4px;
+}
+.project__desc {
+  font-size: 14px;
+  color: var(--fg-muted);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 52ch;
+}
+.project__status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--fg-subtle);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.project__status.live { color: var(--accent); }
+.project__status.wip { color: var(--burnt-orange); }
+html[data-theme="dark"] .project__status.wip { color: #ff8a3d; }
+
+/* ABOUT */
+.about p {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  margin: 0 0 16px;
+  max-width: 64ch;
+}
+.about p.muted { color: var(--fg-muted); }
+
+/* NOW CARD */
+.now {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+html[data-theme="dark"] .now { box-shadow: 0 0 30px rgba(0, 181, 186, 0.08); }
+.now::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent);
+}
+html[data-theme="dark"] .now::before { box-shadow: 0 0 16px var(--tropical-teal); }
+.now__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+.now__body {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+}
+.now__detail {
+  font-size: 14px;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  main { padding: 120px 20px 64px; }
+  .project { grid-template-columns: 64px 1fr; gap: 16px; }
+  .project__status { grid-column: 2; }
+}
   </style>
 </head>
+
 <body>
   <div class="bg-dots" id="bgDots" aria-hidden="true"></div>
-  <header class="header">
+    <header class="header">
     <div class="header__bar">
       <a class="brand" href="index.html">
         <p class="logo">LH_</p>
       </a>
       <nav class="header__nav">
-        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="index.html" aria-current="page">Home</a>
         <a class="nav-link" href="terms.html">Terms</a>
         <a class="nav-link" href="privacy.html">Privacy</a>
         <a class="nav-link" href="mailto:luke.huxley@gmail.com">Contact</a>
@@ -469,11 +491,12 @@
     </nav>
   </header>
 
+  
   <main>
     <p class="eyebrow"><span class="eyebrow__dot"></span>Personal reference site</p>
     <h1 class="hero" style="font-family: &quot;Noto Serif&quot;">Luke Huxley</h1>
     <p class="lede">A small, deliberately quiet corner of the internet. A reference site for the projects, prototypes, and side experiments I keep alive.</p>
-
+    
     <section class="section about">
       <div class="section__head">
         <h2>About</h2>
@@ -481,7 +504,7 @@
       </div>
       <p>This site is a hub for the work I want to point people at. Each project I ship, whether it's a working tool, a research prototype, or a one-off weekend build, gets a home here with a short description and a link to the live thing.</p>
     </section>
-
+    
     <section class="section">
       <div class="section__head">
         <h2>Projects</h2>
@@ -498,7 +521,7 @@
         </li>
       </ul>
     </section>
-
+    
     <section class="section">
       <div class="section__head">
         <h2>Now</h2>
@@ -510,7 +533,7 @@
         <p class="now__detail">Updated May 2026.</p>
       </div>
     </section>
-
+    
     <section class="section about">
       <div class="section__head">
         <h2>Legal</h2>
@@ -522,16 +545,12 @@
       </p>
     </section>
   </main>
-
-  <footer>
+  
+    <footer>
     <span>© 2026 Luke Huxley</span>
-    <span class="spacer"></span>
-    <a href="terms.html">Terms</a>
-    <a href="privacy.html">Privacy</a>
-    <a href="mailto:luke.huxley@gmail.com">Contact</a>
   </footer>
 
-  <script>
+    <script>
     (function () {
       var btn = document.getElementById('themeToggle');
       if (!btn) return;
@@ -564,47 +583,78 @@
       });
     })();
 
+    // Header floating state — applies at all widths.
+    // When scrolled away from the top the header gains a larger shadow and grows
+    // slightly, implying it has lifted off the page surface.
+    (function () {
+      var header = document.querySelector('.header');
+      if (!header) return;
+
+      var THRESHOLD = 10;
+      var floating = false;
+
+      function update() {
+        var shouldFloat = window.scrollY > THRESHOLD;
+        if (shouldFloat === floating) return;
+        floating = shouldFloat;
+        header.classList.toggle('header--floating', floating);
+      }
+
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () { update(); ticking = false; });
+      }, { passive: true });
+
+      update();
+    })();
+  </script>
+
+  <script>
     // Plane animation — vertices connected by edges, electrons traverse the circuit.
     (function () {
       var host = document.getElementById('bgDots');
       if (!host) return;
       if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
+      
       var script = document.createElement('script');
       script.src = 'https://unpkg.com/three@0.160.0/build/three.min.js';
       script.onload = init;
       document.head.appendChild(script);
-
+      
       // ─── Brand colours ────────────────────────────────────────────────────
       var C_DARK_BASE  = 0x00b5ba; // vertex/edge base colour — dark mode
       var C_LIGHT_BASE = 0x00d5da; // vertex/edge base colour — light mode
       var C_DARK_NEW   = 0x00fef0; // electron colour — dark mode (neon glow)
       var C_LIGHT_NEW  = 0x00b5ba; // electron colour — light mode (ink)
       // ─────────────────────────────────────────────────────────────────────
-
+      
       function getThemeColors() {
         var dark = document.documentElement.getAttribute('data-theme') === 'dark';
         return { base: new THREE.Color(dark ? C_DARK_BASE : C_LIGHT_BASE) };
       }
-
+      
       function init() {
         var THREE = window.THREE;
         var w = host.clientWidth, h = host.clientHeight;
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 3000);
         camera.up.set(0, -1, 0);
-        camera.position.set(0, 180, 520);
+        camera.position.set(0, 80, 460);
         camera.lookAt(0, 0, 0);
-
+        
         var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(w, h);
         renderer.setClearColor(0x000000, 0);
         host.appendChild(renderer.domElement);
-
+        
         // Plane: vertices on an XZ grid, Y animated as a wave
-        var COLS = 60, ROWS = 40, SPACING = 26;
+        var COLS = 30, ROWS = 30, SPACING = 30;
         var COUNT = COLS * ROWS;
+        // Frustum half-width at camera depth ~550; used for per-frame CPU culling.
+        var maxVisibleX = 550 * Math.tan(27.5 * Math.PI / 180) * (w / h);
         var basePositions = new Float32Array(COUNT * 3);
         var positions     = new Float32Array(COUNT * 3);
         for (var r = 0; r < ROWS; r++) {
@@ -616,32 +666,32 @@
             basePositions[k*3+2] = positions[k*3+2] = z;
           }
         }
-
+        
         // ─── Tweaks ───────────────────────────────────────────────────────
-        var E_COUNT           = 15;    // max simultaneous electrons
-        var E_SPEED_MIN       = 0.01;  // slowest electron (progress per frame)
-        var E_SPEED_MAX       = 0.2;   // fastest electron
-        var E_HUE_RANGE       = 90;    // hue deviation from base colour (± degrees)
-        var E_MIN_HOPS        = 3;     // min hops before an electron may die
-        var E_MAX_HOPS        = 10;    // max hops before an electron dies
-        var EDGE_GLOW_SIZE    = 2;     // edge size multiplier when New
-        var VERT_GLOW_BOOST   = 1;     // vertex glow brightness multiplier (dark mode only)
-        var T_NEW             = 600;   // frames: New → Stable
-        var T_STABLE          = 3600;  // frames in Stable before Legacy (0 = persist)
-        var T_LEGACY          = 600;   // frames: Legacy → Dead
-        var STABLE_CLUSTERS   = 100;   // number of pre-populated connected clusters
-        var STABLE_CLUSTER_SIZE = 10;  // edges per cluster walk
-        var EL_SIZE           = 10;    // electron dot size
-        var EL_BOOST          = 1;     // electron brightness
-        var EL_HALO           = 0;     // electron halo (0 = sharp, 1 = strong glow)
-        var EL_FADE_NEAR      = 300.0; // depth where elements begin fading
-        var EL_FADE_FAR       = 450.0; // depth where elements are fully faded
+        var E_COUNT             = 15;    // max simultaneous electrons
+        var E_SPEED_MIN         = 0.01;  // slowest electron (progress per frame)
+        var E_SPEED_MAX         = 0.2;   // fastest electron
+        var E_HUE_RANGE         = 90;    // hue deviation from base colour (± degrees)
+        var E_MIN_HOPS          = 3;     // min hops before an electron may die
+        var E_MAX_HOPS          = 10;    // max hops before an electron dies
+        var EDGE_GLOW_SIZE      = 0.7;   // edge size multiplier when New
+        var VERT_GLOW_BOOST     = 1;     // vertex glow brightness multiplier (dark mode only)
+        var T_NEW               = 600;   // frames: New → Stable
+        var T_STABLE            = 3600;  // frames in Stable before Legacy (0 = persist)
+        var T_LEGACY            = 600;   // frames: Legacy → Dead
+        var STABLE_CLUSTERS     = 100;   // number of pre-populated connected clusters
+        var STABLE_CLUSTER_SIZE = 10;    // edges per cluster walk
+        var EL_SIZE             = 10;    // electron dot size
+        var EL_BOOST            = 1;     // electron brightness
+        var EL_HALO             = 1;     // electron halo (0 = sharp, 1 = strong glow)
+        var EL_FADE_NEAR        = 300.0; // depth where elements begin fading
+        var EL_FADE_FAR         = 450.0; // depth where elements are fully faded
         // ─────────────────────────────────────────────────────────────────
-
+        
         var isDark  = document.documentElement.getAttribute('data-theme') === 'dark';
         var colors  = getThemeColors();
         var lm      = isDark ? 0.0 : 1.0;
-
+        
         // ── Edges (dots) ──────────────────────────────────────────────────
         // States: 0=Dead  1=New  2=Stable  3=Legacy
         var edgeState = new Uint8Array(COUNT);
@@ -665,50 +715,50 @@
             uLightMode: { value: lm }
           },
           vertexShader: [
-            'attribute float aGlow;',
-            'attribute float aAlpha;',
-            'attribute vec3 aColor;',
-            'uniform float uSize;',
-            'uniform float uDotSize;',
-            'uniform float uFadeNear;',
-            'uniform float uFadeFar;',
-            'varying float vFade;',
-            'varying float vSideFade;',
-            'varying float vGlow;',
-            'varying float vAlpha;',
-            'varying vec3 vColor;',
-            'void main() {',
-            '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
-            '  float dist = -mv.z;',
-            '  vFade = 1.0 - smoothstep(uFadeNear, uFadeFar, dist);',
-            '  vec4 clip = projectionMatrix * mv;',
-            '  float ndcX = abs(clip.x / clip.w);',
-            '  vSideFade = 1.0 - smoothstep(0.55, 1.0, ndcX);',
-            '  vGlow = aGlow; vAlpha = aAlpha; vColor = aColor;',
-            '  gl_Position = clip;',
-            '  gl_PointSize = uSize * (1.0 + vGlow * uDotSize) * (300.0 / dist);',
-            '}'
+          'attribute float aGlow;',
+          'attribute float aAlpha;',
+          'attribute vec3 aColor;',
+          'uniform float uSize;',
+          'uniform float uDotSize;',
+          'uniform float uFadeNear;',
+          'uniform float uFadeFar;',
+          'varying float vFade;',
+          'varying float vSideFade;',
+          'varying float vGlow;',
+          'varying float vAlpha;',
+          'varying vec3 vColor;',
+          'void main() {',
+          '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
+          '  float dist = -mv.z;',
+          '  vFade = 1.0 - smoothstep(uFadeNear, uFadeFar, dist);',
+          '  vec4 clip = projectionMatrix * mv;',
+          '  float ndcX = abs(clip.x / clip.w);',
+          '  vSideFade = 1.0 - smoothstep(0.55, 1.0, ndcX);',
+          '  vGlow = aGlow; vAlpha = aAlpha; vColor = aColor;',
+          '  gl_Position = clip;',
+          '  gl_PointSize = uSize * (1.0 + vGlow * uDotSize) * (300.0 / dist);',
+          '}'
           ].join('\n'),
           fragmentShader: [
-            'uniform vec3 uBase;',
-            'uniform float uLightMode;',
-            'varying float vFade;',
-            'varying float vSideFade;',
-            'varying float vGlow;',
-            'varying float vAlpha;',
-            'varying vec3 vColor;',
-            'void main() {',
-            '  vec2 uv = gl_PointCoord - vec2(0.5);',
-            '  float r = length(uv);',
-            '  float shape = smoothstep(0.5, 0.42, r);',
-            '  if (shape <= 0.0 || vAlpha <= 0.0) discard;',
-            '  vec3 col = mix(uBase, vColor, vGlow * 0.7) * (1.0 + vGlow * (1.0 - uLightMode));',
-            '  gl_FragColor = vec4(col, shape * vAlpha * vFade * vSideFade);',
-            '}'
+          'uniform vec3 uBase;',
+          'uniform float uLightMode;',
+          'varying float vFade;',
+          'varying float vSideFade;',
+          'varying float vGlow;',
+          'varying float vAlpha;',
+          'varying vec3 vColor;',
+          'void main() {',
+          '  vec2 uv = gl_PointCoord - vec2(0.5);',
+          '  float r = length(uv);',
+          '  float shape = smoothstep(0.5, 0.42, r);',
+          '  if (shape <= 0.0 || vAlpha <= 0.0) discard;',
+          '  vec3 col = mix(uBase, vColor, vGlow * 0.7) * (1.0 + vGlow * (1.0 - uLightMode));',
+          '  gl_FragColor = vec4(col, shape * vAlpha * vFade * vSideFade);',
+          '}'
           ].join('\n')
         });
         scene.add(new THREE.Points(edgeGeom, edgeMat));
-
+        
         // ── Vertices (lines) + adjacency graph ────────────────────────────
         // H + V + 2×diagonal per interior node; pre-computed to size the typed array
         var VERT_COUNT = ROWS*(COLS-1) + (ROWS-1)*COLS + 2*(ROWS-1)*(COLS-1);
@@ -767,45 +817,45 @@
             uLightMode: { value: lm }
           },
           vertexShader: [
-            'attribute float aGlow;',
-            'attribute float aAlpha;',
-            'attribute vec3 aColor;',
-            'uniform float uFadeNear;',
-            'uniform float uFadeFar;',
-            'varying float vFade;',
-            'varying float vSideFade;',
-            'varying float vGlow;',
-            'varying float vAlpha;',
-            'varying vec3 vColor;',
-            'void main() {',
-            '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
-            '  float dist = -mv.z;',
-            '  vFade = 1.0 - smoothstep(uFadeNear, uFadeFar, dist);',
-            '  vec4 clip = projectionMatrix * mv;',
-            '  float ndcX = abs(clip.x / clip.w);',
-            '  vSideFade = 1.0 - smoothstep(0.55, 1.0, ndcX);',
-            '  vGlow = aGlow; vAlpha = aAlpha; vColor = aColor;',
-            '  gl_Position = clip;',
-            '}'
+          'attribute float aGlow;',
+          'attribute float aAlpha;',
+          'attribute vec3 aColor;',
+          'uniform float uFadeNear;',
+          'uniform float uFadeFar;',
+          'varying float vFade;',
+          'varying float vSideFade;',
+          'varying float vGlow;',
+          'varying float vAlpha;',
+          'varying vec3 vColor;',
+          'void main() {',
+          '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
+          '  float dist = -mv.z;',
+          '  vFade = 1.0 - smoothstep(uFadeNear, uFadeFar, dist);',
+          '  vec4 clip = projectionMatrix * mv;',
+          '  float ndcX = abs(clip.x / clip.w);',
+          '  vSideFade = 1.0 - smoothstep(0.55, 1.0, ndcX);',
+          '  vGlow = aGlow; vAlpha = aAlpha; vColor = aColor;',
+          '  gl_Position = clip;',
+          '}'
           ].join('\n'),
           fragmentShader: [
-            'uniform vec3 uBase;',
-            'uniform float uLineBoost;',
-            'uniform float uLightMode;',
-            'varying float vFade;',
-            'varying float vSideFade;',
-            'varying float vGlow;',
-            'varying float vAlpha;',
-            'varying vec3 vColor;',
-            'void main() {',
-            '  if (vAlpha <= 0.0) discard;',
-            '  vec3 col = mix(uBase, vColor, vGlow * 0.75) * (1.0 + vGlow * uLineBoost * (1.0 - uLightMode));',
-            '  gl_FragColor = vec4(col, vAlpha * vFade * vSideFade);',
-            '}'
+          'uniform vec3 uBase;',
+          'uniform float uLineBoost;',
+          'uniform float uLightMode;',
+          'varying float vFade;',
+          'varying float vSideFade;',
+          'varying float vGlow;',
+          'varying float vAlpha;',
+          'varying vec3 vColor;',
+          'void main() {',
+          '  if (vAlpha <= 0.0) discard;',
+          '  vec3 col = mix(uBase, vColor, vGlow * 0.75) * (1.0 + vGlow * uLineBoost * (1.0 - uLightMode));',
+          '  gl_FragColor = vec4(col, vAlpha * vFade * vSideFade);',
+          '}'
           ].join('\n')
         });
         scene.add(new THREE.LineSegments(vertGeom, vertMat));
-
+        
         // ── Initial stable clusters ───────────────────────────────────────
         var baseGlowHSL = {};
         new THREE.Color(isDark ? C_DARK_NEW : C_LIGHT_NEW).getHSL(baseGlowHSL);
@@ -839,14 +889,15 @@
             }
           });
         }
-
+        
         window.addEventListener('resize', function () {
           var nw = host.clientWidth, nh = host.clientHeight;
           camera.aspect = nw / nh;
           camera.updateProjectionMatrix();
           renderer.setSize(nw, nh);
+          maxVisibleX = 550 * Math.tan(27.5 * Math.PI / 180) * (nw / nh);
         });
-
+        
         var observer = new MutationObserver(function () {
           var c = getThemeColors();
           isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -858,10 +909,10 @@
           new THREE.Color(isDark ? C_DARK_NEW : C_LIGHT_NEW).getHSL(baseGlowHSL);
         });
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
+        
         // ── Electrons ─────────────────────────────────────────────────────
         var electrons = [];
-
+        
         function spawnElectron(nodeIdx) {
           var links = adj[nodeIdx];
           if (!links.length) return;
@@ -872,20 +923,23 @@
           var speed = E_SPEED_MIN + Math.random() * (E_SPEED_MAX - E_SPEED_MIN);
           electrons.push({ node: nodeIdx, next: link.other, vi: link.vi, prog: 0, hops: 0, visited: visited, cr: ec.r, cg: ec.g, cb: ec.b, speed: speed });
         }
-
+        
         // Weighted spawn: favour nodes with more Dead adjacent vertices (fills gaps first).
         // Falls back to a full plane scan if the pool yields nothing.
         function pickSpawnNode(pool) {
           var weighted = [], i, ni, j, links, free, w;
           if (pool && pool.length) {
             for (i = 0; i < pool.length; i++) {
-              ni = pool[i]; links = adj[ni]; free = 0;
+              ni = pool[i];
+              if (Math.abs(basePositions[ni*3]) > maxVisibleX) continue;
+              links = adj[ni]; free = 0;
               for (j = 0; j < links.length; j++) { if (vertState[links[j].vi] === 0) free++; }
               for (w = 0; w < free; w++) weighted.push(ni);
             }
           }
           if (!weighted.length) {
             for (ni = 0; ni < COUNT; ni++) {
+              if (Math.abs(basePositions[ni*3]) > maxVisibleX) continue;
               links = adj[ni]; free = 0;
               for (j = 0; j < links.length; j++) { if (vertState[links[j].vi] === 0) free++; }
               for (w = 0; w < free; w++) weighted.push(ni);
@@ -893,9 +947,9 @@
           }
           return weighted.length ? weighted[Math.floor(Math.random() * weighted.length)] : Math.floor(Math.random() * COUNT);
         }
-
+        
         for (var ii = 0; ii < E_COUNT; ii++) spawnElectron(pickSpawnNode(stableNodes));
-
+        
         var electronPositions = new Float32Array(E_COUNT * 3);
         var electronColors    = new Float32Array(E_COUNT * 3);
         var electronGeom = new THREE.BufferGeometry();
@@ -912,69 +966,72 @@
             uFadeFar:  { value: EL_FADE_FAR }
           },
           vertexShader: [
-            'attribute vec3 aColor;',
-            'uniform float uSize;',
-            'uniform float uFadeNear;',
-            'uniform float uFadeFar;',
-            'varying float vFade;',
-            'varying float vSideFade;',
-            'varying vec3 vColor;',
-            'void main() {',
-            '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
-            '  float dist = -mv.z;',
-            '  vFade = 1.0 - smoothstep(uFadeNear, uFadeFar, dist);',
-            '  vec4 clip = projectionMatrix * mv;',
-            '  float ndcX = abs(clip.x / clip.w);',
-            '  vSideFade = 1.0 - smoothstep(0.55, 1.0, ndcX);',
-            '  vColor = aColor;',
-            '  gl_Position = clip;',
-            '  gl_PointSize = uSize * (300.0 / dist);',
-            '}'
+          'attribute vec3 aColor;',
+          'uniform float uSize;',
+          'uniform float uFadeNear;',
+          'uniform float uFadeFar;',
+          'varying float vFade;',
+          'varying float vSideFade;',
+          'varying vec3 vColor;',
+          'void main() {',
+          '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
+          '  float dist = -mv.z;',
+          '  vFade = 1.0 - smoothstep(uFadeNear, uFadeFar, dist);',
+          '  vec4 clip = projectionMatrix * mv;',
+          '  float ndcX = abs(clip.x / clip.w);',
+          '  vSideFade = 1.0 - smoothstep(0.55, 1.0, ndcX);',
+          '  vColor = aColor;',
+          '  gl_Position = clip;',
+          '  gl_PointSize = uSize * (300.0 / dist);',
+          '}'
           ].join('\n'),
           fragmentShader: [
-            'uniform float uBoost;',
-            'uniform float uHalo;',
-            'varying float vFade;',
-            'varying float vSideFade;',
-            'varying vec3 vColor;',
-            'void main() {',
-            '  vec2 uv = gl_PointCoord - vec2(0.5);',
-            '  float r = length(uv);',
-            '  float core = smoothstep(0.22, 0.12, r);',
-            '  float halo = smoothstep(0.5, 0.18, r) * uHalo;',
-            '  float alpha = (core + halo) * uBoost;',
-            '  if (alpha <= 0.0) discard;',
-            '  gl_FragColor = vec4(vColor, alpha * vFade * vSideFade);',
-            '}'
+          'uniform float uBoost;',
+          'uniform float uHalo;',
+          'varying float vFade;',
+          'varying float vSideFade;',
+          'varying vec3 vColor;',
+          'void main() {',
+          '  vec2 uv = gl_PointCoord - vec2(0.5);',
+          '  float r = length(uv);',
+          '  float core = smoothstep(0.22, 0.12, r);',
+          '  float halo = smoothstep(0.5, 0.18, r) * uHalo;',
+          '  float alpha = (core + halo) * uBoost;',
+          '  if (alpha <= 0.0) discard;',
+          '  gl_FragColor = vec4(vColor, alpha * vFade * vSideFade);',
+          '}'
           ].join('\n')
         });
         scene.add(new THREE.Points(electronGeom, electronMat));
-
+        
         // ── Tick ──────────────────────────────────────────────────────────
         var t0 = performance.now();
         function tick() {
           var t = (performance.now() - t0) * 0.0003;
-
-          // Wave
+          
+          // Wave — skip nodes outside the visible horizontal frustum
           for (var k = 0; k < COUNT; k++) {
             var bx = basePositions[k*3], bz = basePositions[k*3+2];
+            if (Math.abs(bx) > maxVisibleX) continue;
             positions[k*3+1] =
-              Math.sin(bx * 0.012 + t * 1.4) * 18 +
-              Math.cos(bz * 0.014 + t * 1.1) * 14 +
-              Math.sin((bx + bz) * 0.008 + t * 0.7) * 8;
+            Math.sin(bx * 0.012 + t * 1.4) * 18 +
+            Math.cos(bz * 0.014 + t * 1.1) * 14 +
+            Math.sin((bx + bz) * 0.008 + t * 0.7) * 8;
           }
           edgeGeom.attributes.position.needsUpdate = true;
-
-          // Sync vertex positions from current node positions
+          
+          // Sync vertex positions — skip segments where both endpoints are off-screen
           for (var s = 0; s < VERT_COUNT; s++) {
             var pa = vertPairs[s*2], pb = vertPairs[s*2+1];
+            if (Math.abs(basePositions[pa*3]) > maxVisibleX && Math.abs(basePositions[pb*3]) > maxVisibleX) continue;
             vertPositions[s*6]   = positions[pa*3];   vertPositions[s*6+1] = positions[pa*3+1]; vertPositions[s*6+2] = positions[pa*3+2];
             vertPositions[s*6+3] = positions[pb*3];   vertPositions[s*6+4] = positions[pb*3+1]; vertPositions[s*6+5] = positions[pb*3+2];
           }
           vertGeom.attributes.position.needsUpdate = true;
-
-          // Edge state machine
+          
+          // Edge state machine — skip off-screen nodes
           for (var k = 0; k < COUNT; k++) {
+            if (Math.abs(basePositions[k*3]) > maxVisibleX) continue;
             var es = edgeState[k];
             if (es === 0) continue;
             if (es === 1) {
@@ -987,9 +1044,11 @@
               if (++edgeAge[k] >= T_LEGACY) { edgeState[k] = 0; edgeAge[k] = 0; edgeAlpha[k] = 0.0; }
             }
           }
-
-          // Vertex state machine
+          
+          // Vertex state machine — skip segments where both endpoints are off-screen
           for (var s = 0; s < VERT_COUNT; s++) {
+            var pa = vertPairs[s*2], pb = vertPairs[s*2+1];
+            if (Math.abs(basePositions[pa*3]) > maxVisibleX && Math.abs(basePositions[pb*3]) > maxVisibleX) continue;
             var vs = vertState[s];
             if (vs === 0) continue;
             if (vs === 1) {
@@ -1004,9 +1063,9 @@
               if (++vertAge[s] >= T_LEGACY) { vertState[s] = 0; vertAge[s] = 0; vertAlpha[s*2] = vertAlpha[s*2+1] = 0.0; }
             }
           }
-
+          
           if (electrons.length < E_COUNT) spawnElectron(pickSpawnNode(null));
-
+          
           // Advance electrons
           for (var i = electrons.length - 1; i >= 0; i--) {
             var e = electrons[i];
@@ -1039,7 +1098,7 @@
               e.vi   = chosen.vi;
             }
           }
-
+          
           // Update electron positions
           for (var i = 0; i < electrons.length; i++) {
             var e = electrons[i];
@@ -1052,14 +1111,14 @@
           electronGeom.setDrawRange(0, electrons.length);
           electronGeom.attributes.position.needsUpdate = true;
           electronGeom.attributes.aColor.needsUpdate   = true;
-
+          
           edgeGeom.attributes.aGlow.needsUpdate  = true;
           edgeGeom.attributes.aAlpha.needsUpdate  = true;
           edgeGeom.attributes.aColor.needsUpdate  = true;
           vertGeom.attributes.aGlow.needsUpdate   = true;
           vertGeom.attributes.aAlpha.needsUpdate  = true;
           vertGeom.attributes.aColor.needsUpdate  = true;
-
+          
           renderer.render(scene, camera);
           requestAnimationFrame(tick);
         }

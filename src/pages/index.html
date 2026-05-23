@@ -8,7 +8,7 @@ activeNav: home
 .bg-dots { 
   left: 0; 
   right: 0; 
-  height: 500px 
+  height: 800px 
 }
 
 /* MAIN */
@@ -17,7 +17,7 @@ main {
   z-index: 1;
   max-width: 760px;
   margin: 0 auto;
-  padding: 110px 32px 96px;
+  padding: 130px 32px 96px;
   animation: entry 320ms var(--ease-out) both;
 }
 /* HERO */
@@ -46,7 +46,7 @@ h1.hero {
   line-height: 1;
   letter-spacing: 0.005em;
   font-weight: 400;
-  margin: 0 0 24px;
+  margin: 0 0 30px;
   text-wrap: balance;
 }
 h1.hero .accent { color: var(--accent); }
@@ -57,7 +57,7 @@ h1.hero .accent { color: var(--accent); }
   line-height: 1.45;
   color: var(--fg-muted);
   max-width: 56ch;
-  margin: 0 0 48px;
+  margin: 0 0 90px;
   letter-spacing: -0.01em;
 }
 
@@ -278,7 +278,7 @@ html[data-theme="dark"] .now::before { box-shadow: 0 0 16px var(--tropical-teal)
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 3000);
         camera.up.set(0, -1, 0);
-        camera.position.set(0, 180, 460);
+        camera.position.set(0, 80, 460);
         camera.lookAt(0, 0, 0);
         
         var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -288,7 +288,7 @@ html[data-theme="dark"] .now::before { box-shadow: 0 0 16px var(--tropical-teal)
         host.appendChild(renderer.domElement);
         
         // Plane: vertices on an XZ grid, Y animated as a wave
-        var COLS = 40, ROWS = 60, SPACING = 30;
+        var COLS = 30, ROWS = 30, SPACING = 30;
         var COUNT = COLS * ROWS;
         // Frustum half-width at camera depth ~550; used for per-frame CPU culling.
         var maxVisibleX = 550 * Math.tan(27.5 * Math.PI / 180) * (w / h);
