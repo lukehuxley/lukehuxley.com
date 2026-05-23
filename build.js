@@ -46,6 +46,10 @@ function buildAll() {
   for (const file of fs.readdirSync(PAGES_DIR).filter(f => f.endsWith('.html'))) {
     buildPage(file);
   }
+  for (const file of fs.readdirSync('src').filter(f => f.endsWith('.js') || f.endsWith('.css'))) {
+    fs.copyFileSync(path.join('src', file), path.join(OUT_DIR, file));
+    console.log(`  copied → ${file}`);
+  }
   console.log('Done.\n');
 }
 
